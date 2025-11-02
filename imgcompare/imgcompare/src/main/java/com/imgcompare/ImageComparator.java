@@ -37,15 +37,32 @@ public class ImageComparator {
                 int rgb1 = (x < img1.getWidth() && y < img1.getHeight()) ? img1.getRGB(x, y) : 0;
                 int rgb2 = (x < img2.getWidth() && y < img2.getHeight()) ? img2.getRGB(x, y) : 0;
 
+                // System.out.println(rgb1 + ";" + rgb2);
+
                 if (rgb1 != rgb2) {
-                    diffImage.setRGB(x, y, 0xFF0000); // Red for differences
+                    // Calculer la différence pour chaque composante RGB
+                    int r1 = (rgb1 >> 16) & 0xFF;
+                    int g1 = (rgb1 >> 8) & 0xFF;
+                    int b1 = rgb1 & 0xFF;
+                    
+                    int r2 = (rgb2 >> 16) & 0xFF;
+                    int g2 = (rgb2 >> 8) & 0xFF;
+                    int b2 = rgb2 & 0xFF;
+                    
+                    int diffR = Math.abs(r1 - r2);
+                    int diffG = Math.abs(g1 - g2);
+                    int diffB = Math.abs(b1 - b2);
+                    
+                    // Assembler la couleur différence en RGB
+                    int diffRGB = (diffR << 16) | (diffG << 8) | diffB;
+                    diffImage.setRGB(x, y, diffRGB);
                 } else {
-                    diffImage.setRGB(x, y, rgb1); // Original pixel
+                    diffImage.setRGB(x, y, 0x000000); // Noir pour les pixels identiques
                 }
             }
         }
         return diffImage;
     }
 
-    
+
 }
