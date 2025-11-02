@@ -1,0 +1,35 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Run imgcompare",
+      "type": "shell",
+      "command": "java",
+      "args": [
+        "-cp",
+        "${workspaceFolder}/imgcompare/imgcompare/target/classes",
+        "com.imgcompare.Main",
+        "${input:image1}",
+        "${input:image2}"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    }
+  ],
+  "inputs": [
+    {
+      "id": "image1",
+      "type": "promptString",
+      "description": "Chemin de l'image 1",
+      "default": "${workspaceFolder}/imgcompare/imgcompare/src/main/resources/test_compare_image1.png"
+    },
+    {
+      "id": "image2",
+      "type": "promptString",
+      "description": "Chemin de l'image 2",
+      "default": "${workspaceFolder}/imgcompare/imgcompare/src/main/resources/test_compare_image2.png"
+    }
+  ]
+}

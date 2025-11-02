@@ -7,7 +7,7 @@ import java.io.IOException;
 public class Main {
     public static void main(String[] args) {
         if (args.length != 2) {
-            System.out.println("Usage: java imgcompare.Main <image1.png> <image2.png>");
+            System.out.println("Usage: java -jar \"imgcompare\\imgcompare\\target\\imgcompare.jar\" \"<image1>\" \"<image2>\"");
             return;
         }
 
@@ -20,8 +20,14 @@ public class Main {
             int diffCount = comparator.countDifferentPixels();
             BufferedImage diffImage = comparator.generateDifferenceImage();
 
-            String result = diffCount < 1000 ? "OK" : "KO";
-            System.out.println(result);
+            if (diffCount < 1000) {
+                String result = "OK";
+                System.out.println(result);
+
+            } else {
+                String result = "KO";
+                System.out.println(result);
+            }
             System.out.println("Les deux images diffèrent de " + diffCount + " pixels.");
 
             ImageIO.write(diffImage, "png", new File("diff.png"));
