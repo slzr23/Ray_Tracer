@@ -1,9 +1,9 @@
 package com.raytracer;
 
 public class Color {
-    private double r;
-    private double g;
-    private double b;
+    private float r;
+    private float g;
+    private float b;
 
     public Color() {
         this.r = 0.0f;
@@ -23,27 +23,27 @@ public class Color {
 
 
     // Getters et Setters
-    public double getR() {
+    public float getR() {
         return r;
     }
 
-    public double getG() {
+    public float getG() {
         return g;
     }
 
-    public double getB() {
+    public float getB() {
         return b;
     }
 
-    public void setR(double r) {
+    public void setR(float r) {
         this.r = r;
     }
 
-    public void setG(double g) {
+    public void setG(float g) {
         this.g = g;
     }
 
-    public void setB(double b) {
+    public void setB(float b) {
         this.b = b;
     }
 
@@ -58,7 +58,7 @@ public class Color {
     }
 
     // Multiplication par un scalaire
-    public Color scale(double scalar) {
+    public Color scale(float scalar) {
         Color ColorResult = new Color();
         ColorResult.setR(this.r * scalar);
         ColorResult.setG(this.g * scalar);
