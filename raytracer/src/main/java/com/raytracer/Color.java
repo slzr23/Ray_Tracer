@@ -72,7 +72,7 @@ public class Color {
         ColorResult.setR(this.r * c.r);
         ColorResult.setG(this.g * c.g);
         ColorResult.setB(this.b * c.b);
-        return ColorResult; 
+        return ColorResult;
     }
     // Conversion RGB 
     public int toRGB(){
