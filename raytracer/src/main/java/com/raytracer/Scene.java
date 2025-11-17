@@ -33,4 +33,20 @@ public class Scene {
     public String getOutputFile() {
         return outputFile;
     }
+
+    public Camera getCamera() {
+        return camera;
+    }
+
+    public Color getAmbient() {
+        return ambient;
+    }
+
+    public List<Light> getLights() {
+        return lights;
+    }
+
+    public List<Shape> getShapes() {
+        return shapes;
+    }
 }
