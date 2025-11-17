@@ -4,11 +4,13 @@ public class Scene {
     private int width;
     private int height;
     private String outputFile = "output.png";
+    private Camera camera;
 
-    public Scene(int width, int height, String outputFile) {
+    public Scene(int width, int height, String outputFile, Camera camera) {
         this.width = width;
         this.height = height;
         this.outputFile = outputFile;
+        this.camera = camera;
     }
 
     public int getWidth() {
@@ -21,9 +23,5 @@ public class Scene {
 
     public String getOutputFile() {
         return outputFile;
-    }
-    
-    public Camera setCamera(Point position, Point lookAt, Vector up, double fov) {
-        return new Camera(position, lookAt, up, fov);
     }
 }
