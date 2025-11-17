@@ -1,4 +1,4 @@
-package com.raytracer;
+package com.geometry;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
