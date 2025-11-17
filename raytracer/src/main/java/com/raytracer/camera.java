@@ -1,12 +1,12 @@
 package com.raytracer;
 
-public class camera {
+public class Camera {
     private Point position;
     private Point lookAt;
     private Vector up;
     private double fov;
 
-    public camera(Point position, Point lookAt, Vector up, double fov) {
+    public Camera(Point position, Point lookAt, Vector up, double fov) {
         this.position = position;
         this.lookAt = lookAt;
         this.up = up;
