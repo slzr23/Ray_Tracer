@@ -23,4 +23,7 @@ public class Scene {
         return outputFile;
     }
     
+    public Camera setCamera(Point position, Point lookAt, Vector up, double fov) {
+        return new Camera(position, lookAt, up, fov);
+    }
 }
