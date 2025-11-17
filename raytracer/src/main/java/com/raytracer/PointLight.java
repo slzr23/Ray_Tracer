@@ -4,15 +4,21 @@ import com.geometry.Point;
 import com.geometry.Vector;
 import com.imaging.Color;
 
-public class PointLight extends AbstractLight {
+public class PointLight implements Light {
     private final Point position;
+    private final Color color;
 
     public PointLight(Point position, Color color) {
-        super(color);
         this.position = position;
+        this.color = color;
     }
 
     public Point getPosition() { return position; }
+
+    @Override
+    public Color getColor() {
+        return color;
+    }
 
     @Override
     public LightSample sampleAt(Point p) {

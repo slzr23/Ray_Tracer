@@ -4,13 +4,19 @@ import com.geometry.Point;
 import com.geometry.Vector;
 import com.imaging.Color;
 
-public class DirectionalLight extends AbstractLight {
+public class DirectionalLight implements Light {
     // Direction de propagation de la lumière (du sol vers la scene) normalisée
     private final Vector direction;
+    private final Color color;
 
     public DirectionalLight(Vector direction, Color color) {
-        super(color);// Passe la couleur au parent AbstractLight
         this.direction = direction.normalize();
+        this.color = color;
+    }
+
+    @Override
+    public Color getColor() {
+        return color;
     }
 
     @Override
