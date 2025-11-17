@@ -3,9 +3,6 @@ package com.geometry;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-import com.geometry.Point;
-import com.geometry.Vector;
-
 public class PointTest {
 
     @Test

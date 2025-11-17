@@ -3,8 +3,6 @@ package com.imaging;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-import com.imaging.Color;
-
 public class ColorTest {
 
     @Test
