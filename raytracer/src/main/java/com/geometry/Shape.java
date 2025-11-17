@@ -1,4 +1,4 @@
-package com.raytracer;
+package com.geometry;
 
 public interface Shape {
     

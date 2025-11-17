@@ -1,5 +1,8 @@
 package com.raytracer;
 
+import com.geometry.Point;
+import com.imaging.Color;
+
 public abstract class AbstractLight implements Light {
     protected final Color color;
 

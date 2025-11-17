@@ -1,5 +1,8 @@
 package com.raytracer;
 
+import com.geometry.Point;
+import com.geometry.Vector;
+
 public class Camera {
     private Point position;
     private Point lookAt;

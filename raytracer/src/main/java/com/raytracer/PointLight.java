@@ -1,5 +1,9 @@
 package com.raytracer;
 
+import com.geometry.Point;
+import com.geometry.Vector;
+import com.imaging.Color;
+
 public class PointLight extends AbstractLight {
     private final Point position;
 

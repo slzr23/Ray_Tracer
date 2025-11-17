@@ -1,5 +1,9 @@
 package com.raytracer;
 
+import com.geometry.Point;
+import com.geometry.Vector;
+import com.imaging.Color;
+
 public class DirectionalLight extends AbstractLight {
     // Direction de propagation de la lumière (du sol vers la scene) normalisée
     private final Vector direction;

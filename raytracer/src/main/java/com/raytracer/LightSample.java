@@ -1,5 +1,8 @@
 package com.raytracer;
 
+import com.geometry.Vector;
+import com.imaging.Color;
+
 public class LightSample {
     // Direction normalisée depuis le point P vers la lumière
     private final Vector direction;

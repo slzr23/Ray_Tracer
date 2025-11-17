@@ -3,6 +3,9 @@ package com.raytracer;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.geometry.Shape;
+import com.imaging.Color;
+
 public class Scene {
     private int width;
     private int height;

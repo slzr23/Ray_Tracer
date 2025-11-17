@@ -1,4 +1,6 @@
-package com.raytracer;
+package com.imaging;
+
+import com.raytracer.AbstractVec3;
 
 public class Color {
     private float r;

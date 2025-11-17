@@ -1,4 +1,6 @@
-package com.raytracer;
+package com.geometry;
+
+import com.raytracer.AbstractVec3;
 
 public class Point {
     private double x;
