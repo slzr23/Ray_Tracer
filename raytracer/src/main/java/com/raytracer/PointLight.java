@@ -1,0 +1,21 @@
+package com.raytracer;
+
+public class PointLight extends AbstractLight {
+    private final Point position;
+
+    public PointLight(Point position, Color color) {
+        super(color);
+        this.position = position;
+    }
+
+    public Point getPosition() { return position; }
+
+    @Override
+    public LightSample sampleAt(Point p) {
+        // Direction vers la lumière = position - P
+        Vector toLight = position.subtract(p);
+        double dist = toLight.length();
+        Vector L = dist > 0.0 ? toLight.scale(1.0 / dist) : new Vector(0, 0, 0);
+        return new LightSample(L, dist, color);
+    }
+}
