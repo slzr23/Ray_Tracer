@@ -73,12 +73,12 @@ public class SceneFileParser {
                         scene.setCamera(camera);
                         break;
 
-                    case "ambient": {
-                        float r = Float.parseFloat(tokens[1]);
-                        float g = Float.parseFloat(tokens[2]);
-                        float b = Float.parseFloat(tokens[3]);
+                    case "ambient": 
+                        float ambR = Float.parseFloat(tokens[1]);
+                        float ambG = Float.parseFloat(tokens[2]);
+                        float ambB = Float.parseFloat(tokens[3]);
 
-                        Color ambient = new Color(r, g, b);
+                        Color ambient = new Color(ambR, ambG, ambB);
 
                         if (ambient.getR() + currentDiffuse.getR() > 1.0f ||
                             ambient.getG() + currentDiffuse.getG() > 1.0f ||
@@ -88,37 +88,34 @@ public class SceneFileParser {
 
                         scene.setAmbient(ambient);
                         break;
-}
 
-                    case "diffuse": {
-                        float r = Float.parseFloat(tokens[1]);
-                        float g = Float.parseFloat(tokens[2]);
-                        float b = Float.parseFloat(tokens[3]);
+                    case "diffuse": 
+                        float difR = Float.parseFloat(tokens[1]);
+                        float difG = Float.parseFloat(tokens[2]);
+                        float difB = Float.parseFloat(tokens[3]);
 
-                        Color diffuse = new Color(r, g, b);
+                        Color diffuse = new Color(difR, difG, difB);
 
-                        Color ambient = scene.getAmbient();
-                            if (ambient != null) {
-                                if (ambient.getR() + currentDiffuse.getR() > 1.0f ||
-                                    ambient.getG() + currentDiffuse.getG() > 1.0f ||
-                                    ambient.getB() + currentDiffuse.getB() > 1.0f) {
+                        Color CurrentAmbient = scene.getAmbient();
+                            if (CurrentAmbient != null) {
+                                if (CurrentAmbient.getR() + currentDiffuse.getR() > 1.0f ||
+                                    CurrentAmbient.getG() + currentDiffuse.getG() > 1.0f ||
+                                    CurrentAmbient.getB() + currentDiffuse.getB() > 1.0f) {
                                     throw new IllegalArgumentException("ambient + diffuse dépasse 1");
                                 }
                             }
 
                         currentDiffuse = diffuse;
                         break;
-                    }
                     
-                    case "specular": {
-                        float r = Float.parseFloat(tokens[1]);
-                        float g = Float.parseFloat(tokens[2]);
-                        float b = Float.parseFloat(tokens[3]);
+                    case "specular":
+                        float specR = Float.parseFloat(tokens[1]);
+                        float specG = Float.parseFloat(tokens[2]);
+                        float specB = Float.parseFloat(tokens[3]);
 
-                        Color specular = new Color(r, g, b);
+                        Color specular = new Color(specR, specG, specB);
                         currentSpecular = specular;
                         break;
-                    }
 
                     case "sphere":
                         double cx = Double.parseDouble(tokens[1]); // centre (x, y, z)
