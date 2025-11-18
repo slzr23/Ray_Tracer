@@ -1,8 +1,7 @@
 package com.parsing;
 import com.imaging.Color;
-import com.raytracer.Scene;
+import com.raytracer.*;
 import com.geometry.*;
-import com.raytracer.Camera;
 
 import java.io.BufferedReader;
 import java.io.IOException;
