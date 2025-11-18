@@ -7,6 +7,8 @@ import com.raytracer.Scene;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Objects;
+
 public class SceneFileParserTest {
     
     @Test
@@ -14,9 +16,12 @@ public class SceneFileParserTest {
         Scene scene = new Scene();
         SceneFileParser parser = new SceneFileParser(scene);
         
-        String testFilePath = "src/test/resources/simple_scene.txt";
+        String testFilePath = Objects.requireNonNull(
+            getClass().getClassLoader().getResource("scenes/tp31.test")
+        ).getPath();
+
         parser.parse(testFilePath);
-        
+
         assertEquals(800, scene.getWidth());
         assertEquals(600, scene.getHeight());
         assertEquals("output.png", scene.getOutputFile());
