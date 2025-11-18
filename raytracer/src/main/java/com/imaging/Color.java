@@ -7,11 +7,18 @@ public class Color {
     private float g;
     private float b;
 
+    public Color(float r, float g, float b) {
+        this.r = r;
+        this.g = g;
+        this.b = b;
+    }
+
     public Color() {
         this.r = 0.0f;
         this.g = 0.0f;
         this.b = 0.0f;
     }
+
     //Equals avec tolérance sur doubles
     @Override
     public boolean equals(Object obj) {

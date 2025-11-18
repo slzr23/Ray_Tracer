@@ -52,4 +52,33 @@ public class Scene {
     public List<Shape> getShapes() {
         return shapes;
     }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public void setOutput(String outputFile) {
+        this.outputFile = outputFile;
+    }
+
+    public void setCamera(Camera camera) {
+        this.camera = camera;
+    }
+
+    public void setAmbient(Color ambient) {
+        this.ambient = ambient;
+    }
+
+    public void setLights(List<Light> lights) {
+        this.lights = lights;
+    }
+
+    public void setShapes(List<Shape> shapes) {
+        this.shapes = shapes;
+    }
+
 }
