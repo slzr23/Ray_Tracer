@@ -171,6 +171,22 @@ public class SceneFileParser {
                         scene.getShapes().add(triangle);
                         break;
 
+                    case "plane":
+                        double planePx = Double.parseDouble(tokens[1]); // point (x, y, z)
+                        double planePy = Double.parseDouble(tokens[2]);
+                        double planePz = Double.parseDouble(tokens[3]);
+                        
+                        double planeNx = Double.parseDouble(tokens[4]); // normale (u, v, w)
+                        double planeNy = Double.parseDouble(tokens[5]);
+                        double planeNz = Double.parseDouble(tokens[6]);
+                        
+                        Point planePoint = new Point(planePx, planePy, planePz);
+                        Vector planeNormal = new Vector(planeNx, planeNy, planeNz);
+                        
+                        Plane plane = new Plane(planePoint, planeNormal, currentDiffuse, currentSpecular);
+                        scene.getShapes().add(plane);
+                        break;
+
                     default:
                         System.out.println("Mot clé ignoré : " + keyword);
                 }
