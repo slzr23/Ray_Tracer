@@ -13,6 +13,8 @@ public class SceneFileParser {
     private final Scene scene;
     private Color currentDiffuse = new Color(0f, 0f, 0f);
     private Color currentSpecular = new Color(0f, 0f, 0f);
+    private Point[] vertices;      // stocke les vertex déclarés
+    private int vertexCount = 0;   // nombre de vertex actuellement ajoutés 
 
     public SceneFileParser(Scene scene) {
         this.scene = scene;
@@ -126,6 +128,47 @@ public class SceneFileParser {
 
                         Sphere sphere = new Sphere(center, radius, currentDiffuse, currentSpecular);
                         scene.getShapes().add(sphere);
+                        break;
+
+                    case "maxverts":
+                        int maxVerts = Integer.parseInt(tokens[1]);
+                        vertices = new Point[maxVerts];
+                        vertexCount = 0;
+                        break;
+
+                    case "vertex":
+                        if (vertices == null) {
+                            throw new IllegalStateException("maxverts doit être déclaré avant vertex");
+                        }
+                        if (vertexCount >= vertices.length) {
+                            throw new IllegalArgumentException("Trop de vertex déclarés (max = " + vertices.length + ")");
+                        }
+                        
+                        double vx = Double.parseDouble(tokens[1]);
+                        double vy = Double.parseDouble(tokens[2]);
+                        double vz = Double.parseDouble(tokens[3]);
+                        
+                        vertices[vertexCount++] = new Point(vx, vy, vz);
+                        break;
+
+                    case "tri":
+                        if (vertices == null) { // on verif que maxverts a été déclaré
+                            throw new IllegalStateException("maxverts doit être déclaré avant tri");
+                        }
+                        
+                        int idx1 = Integer.parseInt(tokens[1]);
+                        int idx2 = Integer.parseInt(tokens[2]);
+                        int idx3 = Integer.parseInt(tokens[3]);
+                        
+                        if (idx1 < 0 || idx1 >= vertexCount ||
+                            idx2 < 0 || idx2 >= vertexCount ||
+                            idx3 < 0 || idx3 >= vertexCount) {
+                            throw new IndexOutOfBoundsException("Index de vertex invalide dans tri");
+                        }
+                        
+                        Triangle triangle = new Triangle(vertices[idx1], vertices[idx2], vertices[idx3], currentDiffuse, currentSpecular);
+                        
+                        scene.getShapes().add(triangle);
                         break;
 
                     default:
