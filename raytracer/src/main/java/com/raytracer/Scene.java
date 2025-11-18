@@ -25,6 +25,9 @@ public class Scene {
         this.shapes = shapes;
     }
 
+    public Scene() {
+    }
+
     public int getWidth() {
         return width;
     }

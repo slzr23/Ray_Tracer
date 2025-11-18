@@ -1,7 +1,8 @@
 package com.parsing;
-import com.raytracer.*;
-import com.geometry.*;
 import com.imaging.Color;
+import com.raytracer.Scene;
+import com.geometry.*;
+import com.raytracer.Camera;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,8 +12,8 @@ import java.nio.file.Path;
 public class SceneFileParser {
 
     private final Scene scene;
-    private Color currentDiffuse;
-    private Color currentSpecular;
+    private Color currentDiffuse = new Color(0f, 0f, 0f);
+    private Color currentSpecular = new Color(0f, 0f, 0f);
 
     public SceneFileParser(Scene scene) {
         this.scene = scene;
