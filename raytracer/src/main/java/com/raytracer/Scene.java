@@ -15,16 +15,6 @@ public class Scene {
     private List<Light> lights = new ArrayList<>();
     private List<Shape> shapes = new ArrayList<>();
 
-    public Scene(int width, int height, String outputFile, Camera camera, Color ambient, List<Light> lights, List<Shape> shapes) {
-        this.width = width;
-        this.height = height;
-        this.outputFile = outputFile;
-        this.camera = camera;
-        this.ambient = ambient;
-        this.lights = lights;
-        this.shapes = shapes;
-    }
-
     public Scene() {
     }
 
