@@ -1,6 +1,10 @@
 package com.geometry;
 
+import java.util.Optional;
+
 import com.imaging.Color;
+import com.raytracer.Intersection;
+import com.raytracer.Ray;
 
 public class Sphere implements Shape {
     private final Point center;
@@ -60,6 +64,52 @@ public class Sphere implements Shape {
         } else if (!specular.equals(other.specular))
             return false;
         return true;
+    }
+
+    /**Calcule intersection rayon / sphère
+    * @param ray le rayon à tester
+    * @return Optional contenant l'Intersection si elle existe, sinon vide
+    */
+    public Optional<Intersection> intersect(Ray ray) {
+        Point o = ray.getOrigin();
+        Vector d = ray.getDirection();
+        
+        // Vecteur (o - c)
+        Vector oc = new Vector(
+            o.getX() - center.getX(),
+            o.getY() - center.getY(),
+            o.getZ() - center.getZ()
+        );
+        
+        // Coeff eq second degré
+        double a = d.dot(d);
+        double b = 2.0 * oc.dot(d);
+        double c = oc.dot(oc) - radius * radius;
+        
+        // Discriminant
+        double delta = b * b - 4 * a * c;
+        
+        // Pas d'intersection
+        if (delta < 0) {
+            return Optional.empty();
+        }
+        
+        // Calculer t2 car plus proche
+        double t2 = (-b - Math.sqrt(delta)) / (2 * a);
+        
+        // Si t2 est négatif, essayer t1
+        if (t2 < 0) {
+            double t1 = (-b + Math.sqrt(delta)) / (2 * a);
+            if (t1 < 0) {
+                return Optional.empty(); // Les deux sont derrière la caméra
+            }
+            t2 = t1;
+        }
+        
+        // point d'intersection
+        Point intersectionPoint = ray.getPointAtParameter(t2);
+        
+        return Optional.of(new Intersection(this, t2, intersectionPoint));
     }
 
 }

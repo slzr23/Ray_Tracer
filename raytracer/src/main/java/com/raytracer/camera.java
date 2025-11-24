@@ -60,4 +60,36 @@ public class Camera {
         return true;
     }
 
+    /**repère orthonormé de la caméra**/
+    public Orthonormal getOrthonormal() {
+        // w = (lookFrom - lookAt) normalisé
+        Vector w = new Vector(
+            position.getX() - lookAt.getX(),
+            position.getY() - lookAt.getY(),
+            position.getZ() - lookAt.getZ()
+        ).normalize();
+        
+        // u = (up × w) normalisé
+        Vector u = up.cross(w).normalize();
+        
+        // v = (w × u) normalisé
+        Vector v = w.cross(u).normalize();
+        
+        return new Orthonormal(u, v, w);
+    }
+
+    /** hauteur d'un pixel dans la scène**/
+    public double getPixelHeight() {
+        double fovr = Math.toRadians(fov);
+        return Math.tan(fovr / 2.0);
+    }
+
+    /** largeur d'un pixel dans la scène**/
+    public double getPixelWidth(int imgWidth, int imgHeight) {
+        double pixelHeight = getPixelHeight();
+        return pixelHeight * ((double) imgWidth / imgHeight);
+    }
+
+
+
 }
