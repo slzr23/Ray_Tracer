@@ -80,13 +80,6 @@ public class SceneFileParser {
                         float ambB = Float.parseFloat(tokens[3]);
 
                         Color ambient = new Color(ambR, ambG, ambB);
-
-                        if (ambient.getR() + currentDiffuse.getR() > 1.0f ||
-                            ambient.getG() + currentDiffuse.getG() > 1.0f ||
-                            ambient.getB() + currentDiffuse.getB() > 1.0f) {
-                            throw new IllegalArgumentException("ambient + diffuse dépasse 1");
-                        }
-
                         scene.setAmbient(ambient);
                         break;
 
@@ -96,16 +89,6 @@ public class SceneFileParser {
                         float difB = Float.parseFloat(tokens[3]);
 
                         Color diffuse = new Color(difR, difG, difB);
-
-                        Color CurrentAmbient = scene.getAmbient();
-                            if (CurrentAmbient != null) {
-                                if (CurrentAmbient.getR() + diffuse.getR() > 1.0f ||
-                                    CurrentAmbient.getG() + diffuse.getG() > 1.0f ||
-                                    CurrentAmbient.getB() + diffuse.getB() > 1.0f) {
-                                    throw new IllegalArgumentException("ambient + diffuse dépasse 1");
-                                }
-                            }
-
                         currentDiffuse = diffuse;
                         break;
                     
