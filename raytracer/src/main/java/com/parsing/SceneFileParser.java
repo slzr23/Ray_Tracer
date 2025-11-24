@@ -99,9 +99,9 @@ public class SceneFileParser {
 
                         Color CurrentAmbient = scene.getAmbient();
                             if (CurrentAmbient != null) {
-                                if (CurrentAmbient.getR() + currentDiffuse.getR() > 1.0f ||
-                                    CurrentAmbient.getG() + currentDiffuse.getG() > 1.0f ||
-                                    CurrentAmbient.getB() + currentDiffuse.getB() > 1.0f) {
+                                if (CurrentAmbient.getR() + diffuse.getR() > 1.0f ||
+                                    CurrentAmbient.getG() + diffuse.getG() > 1.0f ||
+                                    CurrentAmbient.getB() + diffuse.getB() > 1.0f) {
                                     throw new IllegalArgumentException("ambient + diffuse dépasse 1");
                                 }
                             }
