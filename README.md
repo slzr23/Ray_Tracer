@@ -285,14 +285,6 @@ Ray_Tracer/
 - Pas de réflexion spéculaire (modèle de Phong incomplet)
 - Pas de réfraction ou de transparence
 
-## Tests
-
-Des fichiers de test sont disponibles dans `src/main/resources/scenes/` organisés par jalons :
-- `jalon2/` : Tests de base
-- `jalon3/` : Tests avec sphères simples
-- `jalon4/` : Tests d'illumination diffuse
-- `jalon5/` et suivants : Tests avancés
-
 ## Auteur
 
 Projet développé dans le cadre du cours de Conception Orientée Objet à l'Institut Mines Telecom Nord Europe.
