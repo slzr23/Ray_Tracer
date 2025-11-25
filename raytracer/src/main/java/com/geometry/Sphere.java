@@ -37,6 +37,24 @@ public class Sphere implements Shape {
         return radius;
     }
 
+    /**
+     * Calcule la normale à la surface de la sphère au point p
+     * Formule : n = (p - Center) / ||p - Center||
+     * @param p le point à la surface de la sphère
+     * @return le vecteur normal normalisé
+     */
+    public Vector getNormalAt(Point p) {
+        // Vecteur du centre vers le point
+        Vector normal = new Vector(
+            p.getX() - center.getX(),
+            p.getY() - center.getY(),
+            p.getZ() - center.getZ()
+        );
+        
+        // Normaliser le vecteur
+        return normal.normalize();
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj)

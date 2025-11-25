@@ -19,7 +19,7 @@ public class VectorTest {
     void testScaleDotCross() {
         Vector v = new Vector(2.0, -3.0, 4.0);
         assertEquals(new Vector(4.0, -6.0, 8.0), v.scale(2.0));
-        //assertEquals(4.0*1.0 + (-3.0)*2.0 + 4.0*3.0, v.dot(new Vector(1.0, 2.0, 3.0)), 1e-9);
+        assertEquals(2.0*1.0 + (-3.0)*2.0 + 4.0*3.0, v.dot(new Vector(1.0, 2.0, 3.0)), 1e-9);
         Vector cross = new Vector(1.0, 0.0, 0.0).cross(new Vector(0.0, 1.0, 0.0));
         assertEquals(new Vector(0.0, 0.0, 1.0), cross);
     }

@@ -101,6 +101,36 @@ public class SceneFileParser {
                         currentSpecular = specular;
                         break;
 
+                    case "directional":
+                        // directional dx dy dz r g b
+                        double dirX = Double.parseDouble(tokens[1]);
+                        double dirY = Double.parseDouble(tokens[2]);
+                        double dirZ = Double.parseDouble(tokens[3]);
+                        float lightDirR = Float.parseFloat(tokens[4]);
+                        float lightDirG = Float.parseFloat(tokens[5]);
+                        float lightDirB = Float.parseFloat(tokens[6]);
+                        
+                        Vector direction = new Vector(dirX, dirY, dirZ).normalize();
+                        Color lightDirColor = new Color(lightDirR, lightDirG, lightDirB);
+                        DirectionalLight directionalLight = new DirectionalLight(direction, lightDirColor);
+                        scene.getLights().add(directionalLight);
+                        break;
+
+                    case "point":
+                        // point px py pz r g b
+                        double lightPx = Double.parseDouble(tokens[1]);
+                        double lightPy = Double.parseDouble(tokens[2]);
+                        double lightPz = Double.parseDouble(tokens[3]);
+                        float lightPointR = Float.parseFloat(tokens[4]);
+                        float lightPointG = Float.parseFloat(tokens[5]);
+                        float lightPointB = Float.parseFloat(tokens[6]);
+                        
+                        Point lightPosition = new Point(lightPx, lightPy, lightPz);
+                        Color lightPointColor = new Color(lightPointR, lightPointG, lightPointB);
+                        PointLight pointLight = new PointLight(lightPosition, lightPointColor);
+                        scene.getLights().add(pointLight);
+                        break;
+
                     case "sphere":
                         double cx = Double.parseDouble(tokens[1]); // centre (x, y, z)
                         double cy = Double.parseDouble(tokens[2]);

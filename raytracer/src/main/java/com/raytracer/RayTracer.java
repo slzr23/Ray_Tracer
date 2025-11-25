@@ -15,21 +15,90 @@ public class RayTracer {
     }
 
     public Color getPixelColor(int i, int j) {
-    // Générele rayon pour ce pixel
-    Ray ray = generateRay(i, j);
-    
-    // Trouve l'intersection la plus proche
-    Optional<Intersection> intersection = findClosestIntersection(ray);
-    
-    // Calculer la couleur
-    if (intersection.isPresent()) {
-        // y a une intersection : utiliser la couleur ambiante
-        return scene.getAmbient();
-    } else {
-        // Pas d'intersection : pixel noir/couleur fond
-        return new Color(0f, 0f, 0f);
+        // Générer le rayon pour ce pixel
+        Ray ray = generateRay(i, j);
+        
+        // Trouver l'intersection la plus proche
+        Optional<Intersection> intersection = findClosestIntersection(ray);
+        
+        // Calculer la couleur
+        if (intersection.isPresent()) {
+            // Il y a une intersection : calculer l'illumination
+            return computeColor(intersection.get());
+        } else {
+            // Pas d'intersection : pixel noir/couleur fond
+            return new Color(0f, 0f, 0f);
+        }
     }
-}
+
+    /**
+     * Calcule la couleur d'un point en fonction de l'illumination
+     * @param intersection l'intersection avec l'objet
+     * @return la couleur calculée
+     */
+    private Color computeColor(Intersection intersection) {
+        // Récupérer les informations de l'intersection
+        Shape shape = intersection.getShape();
+        Point point = intersection.getPoint();
+        
+        // Pour l'instant, on ne gère que les sphères
+        if (!(shape instanceof Sphere)) {
+            return scene.getAmbient(); // Retour par défaut pour les autres formes
+        }
+        
+        Sphere sphere = (Sphere) shape;
+        
+        // Calculer la normale au point d'intersection
+        Vector normal = sphere.getNormalAt(point);
+        
+        // Commencer avec la lumière ambiante
+        Color ambient = scene.getAmbient();
+        float r = ambient.getR();
+        float g = ambient.getG();
+        float b = ambient.getB();
+        
+        // Ajouter la contribution de chaque lumière (réflexion diffuse de Lambert)
+        for (Light light : scene.getLights()) {
+            Vector lightDir;
+            
+            if (light instanceof DirectionalLight) {
+                // Lumière directionnelle : direction constante
+                DirectionalLight dirLight = (DirectionalLight) light;
+                lightDir = dirLight.getDirection().scale(-1.0); // Direction vers la lumière
+            } else if (light instanceof PointLight) {
+                // Lumière ponctuelle : direction du point vers la lumière
+                PointLight pointLight = (PointLight) light;
+                Point lightPos = pointLight.getPosition();
+                lightDir = new Vector(
+                    lightPos.getX() - point.getX(),
+                    lightPos.getY() - point.getY(),
+                    lightPos.getZ() - point.getZ()
+                ).normalize();
+            } else {
+                continue; // Type de lumière non supporté
+            }
+            
+            // Formule de Lambert : ld = max(n · lightdir, 0) * lightcolor * colordiffuse
+            double dotProduct = normal.dot(lightDir);
+            double intensity = Math.max(dotProduct, 0.0);
+            
+            if (intensity > 0) {
+                Color lightColor = light.getColor();
+                Color diffuseColor = sphere.getDiffuse();
+                
+                r += (float) (intensity * lightColor.getR() * diffuseColor.getR());
+                g += (float) (intensity * lightColor.getG() * diffuseColor.getG());
+                b += (float) (intensity * lightColor.getB() * diffuseColor.getB());
+            }
+        }
+        
+        // Clamper les valeurs entre 0 et 1
+        r = Math.min(1.0f, Math.max(0.0f, r));
+        g = Math.min(1.0f, Math.max(0.0f, g));
+        b = Math.min(1.0f, Math.max(0.0f, b));
+        
+        return new Color(r, g, b);
+    }
 
         /**Génère rayon pour pixel (i, j)**/
     public Ray generateRay(int i, int j) {
