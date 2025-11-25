@@ -295,4 +295,4 @@ Des fichiers de test sont disponibles dans `src/main/resources/scenes/` organis�
 
 ## Auteur
 
-Projet développé dans le cadre du cours de Conception Orientée Objet à l'IMT.
+Projet développé dans le cadre du cours de Conception Orientée Objet à l'Institut Mines Telecom Nord Europe.
