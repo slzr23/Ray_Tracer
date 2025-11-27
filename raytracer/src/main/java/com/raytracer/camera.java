@@ -2,13 +2,13 @@ package com.raytracer;
 
 import com.geometry.*;
 
-public class Camera {
+public class camera {
     private Point position;
     private Point lookAt;
     private Vector up;
     private double fov;
 
-    public Camera(Point position, Point lookAt, Vector up, double fov) {
+    public camera(Point position, Point lookAt, Vector up, double fov) {
         this.position = position;
         this.lookAt = lookAt;
         this.up = up;
@@ -39,7 +39,7 @@ public class Camera {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Camera other = (Camera) obj;
+        camera other = (camera) obj;
         if (position == null) {
             if (other.position != null)
                 return false;

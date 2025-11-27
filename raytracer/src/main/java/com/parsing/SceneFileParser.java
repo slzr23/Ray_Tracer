@@ -70,7 +70,7 @@ public class SceneFileParser {
                         Point lookAt   = new Point(lx, ly, lz);
                         Vector up      = new Vector(ux, uy, uz);
 
-                        Camera camera = new Camera(position, lookAt, up, fov);
+                        camera camera = new camera(position, lookAt, up, fov);
                         scene.setCamera(camera);
                         break;
 
