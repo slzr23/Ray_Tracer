@@ -41,7 +41,7 @@ public class Main {
                     Color color = rayTracer.getPixelColor(i, j);
                     
                     // Convertir la couleur en RGB et l'assigner au pixel
-                    int rgb = colorToRGB(color);
+                    int rgb = color.toRGB();
                     image.setRGB(i, j, rgb);
                 }
                 
@@ -73,23 +73,5 @@ public class Main {
             e.printStackTrace();
             System.exit(1);
         }
-    }
-    
-    /**
-     * Convertit une Color (valeurs float 0-1) en int RGB pour BufferedImage
-     */
-    private static int colorToRGB(Color color) {
-        // Clamp les valeurs entre 0 et 1
-        float r = Math.max(0f, Math.min(1f, color.getR()));
-        float g = Math.max(0f, Math.min(1f, color.getG()));
-        float b = Math.max(0f, Math.min(1f, color.getB()));
-        
-        // Convertir en 0-255
-        int red = (int) (r * 255);
-        int green = (int) (g * 255);
-        int blue = (int) (b * 255);
-        
-        // Combiner en un seul int RGB (format : 0xRRGGBB)
-        return (red << 16) | (green << 8) | blue;
     }
 }
