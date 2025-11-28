@@ -10,7 +10,7 @@ public class Scene {
     private int width;
     private int height;
     private String outputFile = "output.png";
-    private camera camera;
+    private Camera camera;
     private Color ambient = new Color();
     private List<Light> lights = new ArrayList<>();
     private List<Shape> shapes = new ArrayList<>();
@@ -30,7 +30,7 @@ public class Scene {
         return outputFile;
     }
 
-    public camera getCamera() {
+    public Camera getCamera() {
         return camera;
     }
 
@@ -58,7 +58,7 @@ public class Scene {
         this.outputFile = outputFile;
     }
 
-    public void setCamera(camera camera) {
+    public void setCamera(Camera camera) {
         this.camera = camera;
     }
 

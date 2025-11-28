@@ -102,7 +102,7 @@ public class RayTracer {
 
         /**Génère rayon pour pixel (i, j)**/
     public Ray generateRay(int i, int j) {
-        camera camera = scene.getCamera();
+        Camera camera = scene.getCamera();
         int imgWidth = scene.getWidth();
         int imgHeight = scene.getHeight();
         
