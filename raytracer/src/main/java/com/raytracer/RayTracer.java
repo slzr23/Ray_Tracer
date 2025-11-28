@@ -118,7 +118,7 @@ public class RayTracer {
         
         // Convertir (i, j) en coord (a, b)
         double a = (pixelWidth * (i - imgWidth/2.0 + 0.5)) / (imgWidth/2.0);
-        double b = (pixelHeight * (j - imgHeight/2.0 + 0.5)) / (imgHeight/2.0);
+        double b = -(pixelHeight * (j - imgHeight/2.0 + 0.5)) / (imgHeight/2.0); //inversion des données verticales (spécifiées dans l'énoncé)
         
         // Calculer vecteur direction : d = u*a + v*b - w
         Vector direction = u.scale(a)
