@@ -87,8 +87,8 @@ public class SceneFileParserTest {
 
         // Une seule forme : une sphere
         assertEquals(1, scene.getShapes().size());
-        assertTrue(scene.getShapes().get(0) instanceof Sphere);
-        Sphere s = (Sphere) scene.getShapes().get(0);
+        assertTrue(scene.getShapes().getFirst() instanceof Sphere);
+        Sphere s = (Sphere) scene.getShapes().getFirst();
 
         assertEquals(new Point(0, 0, 0), s.getCenter());
         assertEquals(1.0, s.getRadius(), 1e-9);

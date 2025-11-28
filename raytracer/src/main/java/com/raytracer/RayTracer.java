@@ -61,13 +61,9 @@ public class RayTracer {
         for (Light light : scene.getLights()) {
             Vector lightDir;
             
-            if (light instanceof DirectionalLight) {
-                // Lumière directionnelle : direction constante
-                DirectionalLight dirLight = (DirectionalLight) light;
+            if (light instanceof DirectionalLight dirLight) {
                 lightDir = dirLight.getDirection().scale(-1.0); // Direction vers la lumière
-            } else if (light instanceof PointLight) {
-                // Lumière ponctuelle : direction du point vers la lumière
-                PointLight pointLight = (PointLight) light;
+            } else if (light instanceof PointLight pointLight) {
                 Point lightPos = pointLight.getPosition();
                 lightDir = new Vector(
                     lightPos.getX() - point.getX(),
@@ -142,8 +138,7 @@ public class RayTracer {
             // Parcourir tous les objets de la scène
             for (Shape shape : scene.getShapes()) {
                 // que les sphères pour l'instant
-                if (shape instanceof Sphere) {
-                    Sphere sphere = (Sphere) shape;
+                if (shape instanceof Sphere sphere) {
                     Optional<Intersection> intersection = sphere.intersect(ray);
                     
                     // Si intersection trouvée
