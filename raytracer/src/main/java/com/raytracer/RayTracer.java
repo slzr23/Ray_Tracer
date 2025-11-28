@@ -64,7 +64,7 @@ public class RayTracer {
             if (light instanceof DirectionalLight) {
                 // Lumière directionnelle : direction constante
                 DirectionalLight dirLight = (DirectionalLight) light;
-                lightDir = dirLight.getDirection().scale(-1.0); // Direction vers la lumière
+                lightDir = dirLight.getDirection(); // Direction vers la lumière
             } else if (light instanceof PointLight) {
                 // Lumière ponctuelle : direction du point vers la lumière
                 PointLight pointLight = (PointLight) light;
