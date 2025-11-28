@@ -90,6 +90,4 @@ public class Camera {
         return pixelHeight * ((double) imgWidth / imgHeight);
     }
 
-
-
 }
