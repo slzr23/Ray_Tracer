@@ -15,7 +15,7 @@ public class Main {
             System.exit(1);
         }
 
-        String sceneFilePath = args[0];
+        String sceneFilePath = "src/main/resources/scenes/" + args[0]; // jalonX/fichier.test
         
         try {
             // Étape 1 : Charger la scène depuis le fichier
