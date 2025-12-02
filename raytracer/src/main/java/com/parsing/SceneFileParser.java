@@ -13,6 +13,7 @@ public class SceneFileParser {
     private final Scene scene;
     private Color currentDiffuse = new Color(0f, 0f, 0f);
     private Color currentSpecular = new Color(0f, 0f, 0f);
+    private float currentShininess = 0.0f;
     private Point[] vertices;      // stocke les vertex déclarés
     private int vertexCount = 0;   // nombre de vertex actuellement ajoutés 
 
@@ -108,7 +109,6 @@ public class SceneFileParser {
 
                         currentDiffuse = diffuse;
                         break;
-                        
                     
                     case "specular":
                         float specR = Float.parseFloat(tokens[1]);
@@ -117,6 +117,14 @@ public class SceneFileParser {
 
                         Color specular = new Color(specR, specG, specB);
                         currentSpecular = specular;
+                        break;
+
+                    case "shininess":
+                        float shininess = Float.parseFloat(tokens[1]);
+                        if (shininess < 0) {
+                            throw new IllegalArgumentException("shininess doit être >= 0");
+                        }
+                        currentShininess = shininess;
                         break;
 
                     case "directional":
@@ -157,7 +165,7 @@ public class SceneFileParser {
 
                         Point center = new Point(cx, cy, cz);
 
-                        Sphere sphere = new Sphere(center, radius, currentDiffuse, currentSpecular);
+                        Sphere sphere = new Sphere(center, radius, currentDiffuse, currentSpecular, currentShininess);
                         scene.getShapes().add(sphere);
                         break;
 
@@ -197,7 +205,7 @@ public class SceneFileParser {
                             throw new IndexOutOfBoundsException("Index de vertex invalide dans tri");
                         }
                         
-                        Triangle triangle = new Triangle(vertices[idx1], vertices[idx2], vertices[idx3], currentDiffuse, currentSpecular);
+                        Triangle triangle = new Triangle(vertices[idx1], vertices[idx2], vertices[idx3], currentDiffuse, currentSpecular, currentShininess);
                         
                         scene.getShapes().add(triangle);
                         break;
@@ -214,7 +222,7 @@ public class SceneFileParser {
                         Point planePoint = new Point(planePx, planePy, planePz);
                         Vector planeNormal = new Vector(planeNx, planeNy, planeNz);
                         
-                        Plane plane = new Plane(planePoint, planeNormal, currentDiffuse, currentSpecular);
+                        Plane plane = new Plane(planePoint, planeNormal, currentDiffuse, currentSpecular, currentShininess);
                         scene.getShapes().add(plane);
                         break;
 

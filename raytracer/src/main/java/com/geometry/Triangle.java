@@ -7,13 +7,15 @@ public class Triangle implements Shape {
     private final Point p3;
     private final Color diffuse;
     private final Color specular;
+    protected final Float shininess;
     
-    public Triangle(Point p1, Point p2, Point p3, Color diffuse, Color specular) {
+    public Triangle(Point p1, Point p2, Point p3, Color diffuse, Color specular, Float shininess) {
         this.p1 = p1;
         this.p2 = p2;
         this.p3 = p3;
         this.diffuse = diffuse;
         this.specular = specular;
+        this.shininess = shininess;
     }
 
     @Override
@@ -24,6 +26,11 @@ public class Triangle implements Shape {
     @Override
     public Color getSpecular() {
         return specular;
+    }
+
+    @Override
+    public Float getShininess() {
+        return shininess;
     }
 
     // Getters pour les points

@@ -11,12 +11,14 @@ public class Sphere implements Shape {
     private final double radius;
     private final Color diffuse;
     private final Color specular;
+    private final Float shininess;
 
-    public Sphere(Point center, double radius, Color diffuse, Color specular) {
+    public Sphere(Point center, double radius, Color diffuse, Color specular, Float shininess) {
         this.center = center;
         this.radius = radius;
         this.diffuse = diffuse;
         this.specular = specular;
+        this.shininess = shininess;
     }
 
     @Override
@@ -27,6 +29,11 @@ public class Sphere implements Shape {
     @Override
     public Color getSpecular() {
         return specular;
+    }
+
+    @Override
+    public Float getShininess() {
+        return shininess;
     }
 
     public Point getCenter() {

@@ -10,6 +10,8 @@ import com.geometry.Sphere;
 
 public class RayTracer {
     private Scene scene;
+    private static final double EPSILON = 1e-4;
+
     public RayTracer(Scene scene) {
         this.scene = scene;
     }
@@ -37,68 +39,128 @@ public class RayTracer {
      * @return la couleur calculée
      */
     private Color computeColor(Intersection intersection) {
-        // Récupérer les informations de l'intersection
+        // Récupérer les informations de l’intersection
         Shape shape = intersection.getShape();
         Point point = intersection.getPoint();
-        
-        // Pour l'instant, on ne gère que les sphères
+
+        // Pour l’instant, on ne gère que les sphères
         if (!(shape instanceof Sphere)) {
             return scene.getAmbient(); // Retour par défaut pour les autres formes
         }
-        
+
         Sphere sphere = (Sphere) shape;
-        
-        // Calculer la normale au point d'intersection
+
+        // Normale au point d’intersection
         Vector normal = sphere.getNormalAt(point);
-        
-        // Commencer avec la lumière ambiante
+
+        // Composante ambiante
         Color ambient = scene.getAmbient();
         float r = ambient.getR();
         float g = ambient.getG();
         float b = ambient.getB();
-        
-        // Ajouter la contribution de chaque lumière (réflexion diffuse de Lambert)
+
+        // Direction de vue (du point vers la caméra)
+        Camera camera = scene.getCamera();
+        Point eye = camera.getPosition();
+        Vector viewDir = new Vector(
+            eye.getX() - point.getX(),
+            eye.getY() - point.getY(),
+            eye.getZ() - point.getZ()
+        ).normalize();
+
+        // Contribution de chaque lumière (Lambert + Blinn-Phong + ombres)
         for (Light light : scene.getLights()) {
             Vector lightDir;
-            
+            double maxDistance = Double.POSITIVE_INFINITY; // utile pour les PointLight
+
             if (light instanceof DirectionalLight) {
-                // Lumière directionnelle : direction constante
                 DirectionalLight dirLight = (DirectionalLight) light;
-                lightDir = dirLight.getDirection(); // Direction vers la lumière
+                lightDir = dirLight.getDirection().normalize();
             } else if (light instanceof PointLight) {
-                // Lumière ponctuelle : direction du point vers la lumière
                 PointLight pointLight = (PointLight) light;
                 Point lightPos = pointLight.getPosition();
-                lightDir = new Vector(
-                    lightPos.getX() - point.getX(),
-                    lightPos.getY() - point.getY(),
-                    lightPos.getZ() - point.getZ()
-                ).normalize();
+
+                double dx = lightPos.getX() - point.getX();
+                double dy = lightPos.getY() - point.getY();
+                double dz = lightPos.getZ() - point.getZ();
+
+                maxDistance = Math.sqrt(dx * dx + dy * dy + dz * dz);
+                lightDir = new Vector(dx, dy, dz).normalize();
             } else {
                 continue; // Type de lumière non supporté
             }
-            
-            // Formule de Lambert : ld = max(n · lightdir, 0) * lightcolor * colordiffuse
-            double dotProduct = normal.dot(lightDir);
-            double intensity = Math.max(dotProduct, 0.0);
-            
-            if (intensity > 0) {
-                Color lightColor = light.getColor();
-                Color diffuseColor = sphere.getDiffuse();
-                
-                r += (float) (intensity * lightColor.getR() * diffuseColor.getR());
-                g += (float) (intensity * lightColor.getG() * diffuseColor.getG());
-                b += (float) (intensity * lightColor.getB() * diffuseColor.getB());
+
+            // ================== TEST D’OMBRE ==================
+            // On décale légèrement l’origine le long de la normale pour éviter 
+            // de se réintersecter avec la même sphère.
+            Point shadowOrigin = new Point(
+                point.getX() + normal.getX() * EPSILON,
+                point.getY() + normal.getY() * EPSILON,
+                point.getZ() + normal.getZ() * EPSILON
+            );
+            Ray shadowRay = new Ray(shadowOrigin, lightDir);
+
+            Optional<Intersection> shadowHit = findClosestIntersection(shadowRay);
+            boolean inShadow = false;
+
+            if (shadowHit.isPresent()) {
+                double tShadow = shadowHit.get().getT();
+
+                if (light instanceof PointLight) {
+                    // L’objet doit être entre le point et la lumière
+                    if (tShadow > EPSILON && tShadow < maxDistance - EPSILON) {
+                        inShadow = true;
+                    }
+                } else { // DirectionalLight
+                    if (tShadow > EPSILON) {
+                        inShadow = true;
+                    }
+                }
+            }
+
+            // Si ce point est dans l’ombre pour cette lumière → pas de diffuse ni specular
+            if (inShadow) {
+                continue;
+            }
+
+            // ================== DIFFUSE (Lambert) ==================
+            double dotNL = normal.dot(lightDir);
+            if (dotNL <= 0.0) {
+                // surface tournée à l’opposé → pas de spéculaire non plus
+                continue;
+            }
+
+            double diffuseIntensity = dotNL; // normales et lightDir sont normalisés
+            Color lightColor = light.getColor();
+            Color diffuseColor = sphere.getDiffuse();
+            Color specularColor = sphere.getSpecular();   // à avoir dans Sphere
+            float shininess = sphere.getShininess();      // pareil
+
+            r += (float) (diffuseIntensity * lightColor.getR() * diffuseColor.getR());
+            g += (float) (diffuseIntensity * lightColor.getG() * diffuseColor.getG());
+            b += (float) (diffuseIntensity * lightColor.getB() * diffuseColor.getB());
+
+            // ================== SPECULAIRE (Blinn-Phong) ==================
+            // h = (lightDir + viewDir) / ||lightDir + viewDir||
+            Vector h = lightDir.add(viewDir).normalize();
+            double dotNH = Math.max(normal.dot(h), 0.0);
+            double specIntensity = Math.pow(dotNH, shininess);
+
+            if (specIntensity > 0.0) {
+                r += (float) (specIntensity * lightColor.getR() * specularColor.getR());
+                g += (float) (specIntensity * lightColor.getG() * specularColor.getG());
+                b += (float) (specIntensity * lightColor.getB() * specularColor.getB());
             }
         }
-        
-        // Clamper les valeurs entre 0 et 1
+
+        // Clamp [0,1]
         r = Math.min(1.0f, Math.max(0.0f, r));
         g = Math.min(1.0f, Math.max(0.0f, g));
         b = Math.min(1.0f, Math.max(0.0f, b));
-        
+
         return new Color(r, g, b);
     }
+
 
         /**Génère rayon pour pixel (i, j)**/
     public Ray generateRay(int i, int j) {
@@ -152,7 +214,7 @@ public class RayTracer {
                         double t = inter.getT();
                         
                         // Garder seulement si c'est la plus proche (et devant la caméra)
-                        if (t > 0 && t < minDistance) {
+                        if (t > EPSILON && t < minDistance) {
                             minDistance = t;
                             closest = inter;
                         }
