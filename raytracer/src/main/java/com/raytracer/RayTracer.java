@@ -6,7 +6,6 @@ import java.util.Optional;
 
 import com.geometry.Point;
 import com.geometry.Shape;
-import com.geometry.Sphere;
 
 public class RayTracer {
     private Scene scene;
