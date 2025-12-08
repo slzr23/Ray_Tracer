@@ -7,6 +7,13 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Main {
     public static void main(String[] args) {
@@ -31,23 +38,44 @@ public class Main {
             int width = scene.getWidth();
             int height = scene.getHeight();
             BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-            
+
             System.out.println("Rendu de l'image (" + width + "x" + height + ")...");
-            
-            // Étape 4 : Boucle de rendu - pour chaque pixel
+
+            // Rendu multi-threadé par lignes, stockage temporaire des pixels
+            int[][] pixelBuffer = new int[height][width];
+            int threadCount = Math.max(1, Runtime.getRuntime().availableProcessors());
+            ExecutorService pool = Executors.newFixedThreadPool(threadCount);
+            List<Callable<Void>> jobs = new ArrayList<>();
+            AtomicInteger rowsDone = new AtomicInteger(0);
+
+            for (int j = 0; j < height; j++) {
+                final int row = j;
+                jobs.add(() -> {
+                    for (int i = 0; i < width; i++) {
+                        Color color = rayTracer.getPixelColor(i, row);
+                        pixelBuffer[row][i] = color.toRGB();
+                    }
+                    int finished = rowsDone.incrementAndGet();
+                    if (finished % 50 == 0 || finished == height) {
+                        System.out.println("  Progression : " + finished + "/" + height + " lignes");
+                    }
+                    return null;
+                });
+            }
+
+            try {
+                pool.invokeAll(jobs);
+                pool.shutdown();
+                pool.awaitTermination(1, TimeUnit.HOURS);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new RuntimeException("Rendu interrompu", e);
+            }
+
+            // Copier les pixels calculés dans l'image
             for (int j = 0; j < height; j++) {
                 for (int i = 0; i < width; i++) {
-                    // Calculer la couleur du pixel
-                    Color color = rayTracer.getPixelColor(i, j);
-                    
-                    // Convertir la couleur en RGB et l'assigner au pixel
-                    int rgb = color.toRGB();
-                    image.setRGB(i, j, rgb);
-                }
-                
-                // Afficher la progression
-                if ((j + 1) % 50 == 0 || j == height - 1) {
-                    System.out.println("  Progression : " + (j + 1) + "/" + height + " lignes");
+                    image.setRGB(i, j, pixelBuffer[j][i]);
                 }
             }
             

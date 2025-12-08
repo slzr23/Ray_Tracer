@@ -1,6 +1,7 @@
 package com.geometry;
 
 import java.util.Optional;
+import com.raytracer.AABB;
 import com.raytracer.Intersection;
 import com.raytracer.Ray;
 import com.imaging.Color;
@@ -95,6 +96,17 @@ public class Triangle implements Shape {
         }
 
         return Optional.empty();
+    }
+
+    @Override
+    public AABB getBoundingBox() {
+        double minX = Math.min(p1.getX(), Math.min(p2.getX(), p3.getX()));
+        double minY = Math.min(p1.getY(), Math.min(p2.getY(), p3.getY()));
+        double minZ = Math.min(p1.getZ(), Math.min(p2.getZ(), p3.getZ()));
+        double maxX = Math.max(p1.getX(), Math.max(p2.getX(), p3.getX()));
+        double maxY = Math.max(p1.getY(), Math.max(p2.getY(), p3.getY()));
+        double maxZ = Math.max(p1.getZ(), Math.max(p2.getZ(), p3.getZ()));
+        return new AABB(new Point(minX, minY, minZ), new Point(maxX, maxY, maxZ));
     }
 
     @Override

@@ -1,19 +1,31 @@
 package com.raytracer;
 import com.imaging.Color;
 import com.geometry.Vector;
-
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
-
 import com.geometry.Point;
 import com.geometry.Shape;
-import com.geometry.Sphere;
 
 public class RayTracer {
     private Scene scene;
     private static final double EPSILON = 1e-4;
+    private final BVHNode bvhRoot;
+    private final List<Shape> unboundedShapes;
 
     public RayTracer(Scene scene) {
         this.scene = scene;
+        List<Shape> bounded = new ArrayList<>();
+        List<Shape> unbounded = new ArrayList<>();
+        for (Shape shape : scene.getShapes()) {
+            if (shape.getBoundingBox() != null) {
+                bounded.add(shape);
+            } else {
+                unbounded.add(shape);
+            }
+        }
+        this.bvhRoot = BVHNode.build(bounded);
+        this.unboundedShapes = unbounded;
     }
 
     public Color getPixelColor(int i, int j) {
@@ -224,24 +236,27 @@ public class RayTracer {
         public Optional<Intersection> findClosestIntersection(Ray ray) {
             Intersection closest = null;
             double minDistance = Double.POSITIVE_INFINITY;
-            
-            // Parcourir tous les objets de la scène
-            for (Shape shape : scene.getShapes()) {
+
+            if (bvhRoot != null) {
+                Optional<Intersection> hit = bvhRoot.intersect(ray, minDistance);
+                if (hit.isPresent() && hit.get().getT() > EPSILON) {
+                    closest = hit.get();
+                    minDistance = closest.getT();
+                }
+            }
+
+            for (Shape shape : unboundedShapes) {
                 Optional<Intersection> intersection = shape.intersect(ray);
-                
-                // Si intersection trouvée
                 if (intersection.isPresent()) {
                     Intersection inter = intersection.get();
                     double t = inter.getT();
-                    
-                    // Garder seulement si c'est la plus proche (et devant la caméra)
                     if (t > EPSILON && t < minDistance) {
                         minDistance = t;
                         closest = inter;
                     }
                 }
             }
-            
+
             return Optional.ofNullable(closest);
         }
 }

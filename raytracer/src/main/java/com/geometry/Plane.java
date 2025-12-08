@@ -1,6 +1,7 @@
 package com.geometry;
 
 import java.util.Optional;
+import com.raytracer.AABB;
 import com.raytracer.Intersection;
 import com.raytracer.Ray;
 import com.imaging.Color;
@@ -63,5 +64,10 @@ public class Plane implements Shape {
             }
         }
         return Optional.empty();
+    }
+
+    @Override
+    public AABB getBoundingBox() {
+        return null; // Infinite plane -> handled outside BVH
     }
 }

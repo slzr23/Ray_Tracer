@@ -3,6 +3,7 @@ package com.geometry;
 import java.util.Optional;
 
 import com.imaging.Color;
+import com.raytracer.AABB;
 import com.raytracer.Intersection;
 import com.raytracer.Ray;
 
@@ -137,6 +138,14 @@ public class Sphere implements Shape {
         Point intersectionPoint = ray.getPointAtParameter(t2);
         
         return Optional.of(new Intersection(this, t2, intersectionPoint));
+    }
+
+    @Override
+    public AABB getBoundingBox() {
+        double r = radius;
+        Point min = new Point(center.getX() - r, center.getY() - r, center.getZ() - r);
+        Point max = new Point(center.getX() + r, center.getY() + r, center.getZ() + r);
+        return new AABB(min, max);
     }
 
 }
