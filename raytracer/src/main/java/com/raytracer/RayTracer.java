@@ -81,7 +81,7 @@ public class RayTracer {
 
             if (light instanceof DirectionalLight) {
                 DirectionalLight dirLight = (DirectionalLight) light;
-                lightDir = dirLight.getDirection().scale(-1).normalize();
+                lightDir = dirLight.getDirection().normalize();
             } else if (light instanceof PointLight) {
                 PointLight pointLight = (PointLight) light;
                 Point lightPos = pointLight.getPosition();
@@ -131,7 +131,7 @@ public class RayTracer {
 
             // ================== DIFFUSE (Lambert) ==================
             // Faces tournées à l'opposé de la lumière : pas de contribution
-            double dotNL = geometricNormal.dot(lightDir);
+            double dotNL = orientedNormal.dot(lightDir);
             if (dotNL <= 0.0) {
                 continue;
             }
@@ -149,7 +149,7 @@ public class RayTracer {
             // ================== SPECULAIRE (Blinn-Phong) ==================
             // h = (lightDir + viewDir) / ||lightDir + viewDir||
             Vector h = lightDir.add(viewDir).normalize();
-            double dotNH = Math.max(geometricNormal.dot(h), 0.0);
+            double dotNH = Math.max(orientedNormal.dot(h), 0.0);
             double specIntensity = Math.pow(dotNH, shininess);
 
             if (specIntensity > 0.0) {
