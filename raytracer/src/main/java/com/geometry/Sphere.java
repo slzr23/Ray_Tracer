@@ -50,6 +50,7 @@ public class Sphere implements Shape {
      * @param p le point à la surface de la sphère
      * @return le vecteur normal normalisé
      */
+    @Override
     public Vector getNormalAt(Point p) {
         // Vecteur du centre vers le point
         Vector normal = new Vector(
@@ -95,6 +96,7 @@ public class Sphere implements Shape {
     * @param ray le rayon à tester
     * @return Optional contenant l'Intersection si elle existe, sinon vide
     */
+    @Override
     public Optional<Intersection> intersect(Ray ray) {
         Point o = ray.getOrigin();
         Vector d = ray.getDirection();

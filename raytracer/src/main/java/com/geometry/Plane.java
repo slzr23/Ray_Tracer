@@ -1,5 +1,8 @@
 package com.geometry;
 
+import java.util.Optional;
+import com.raytracer.Intersection;
+import com.raytracer.Ray;
 import com.imaging.Color;
 
 public class Plane implements Shape {
@@ -38,5 +41,27 @@ public class Plane implements Shape {
 
     public Vector getNormal() {
         return normal;
+    }
+
+    @Override
+    public Vector getNormalAt(Point p) {
+        return normal;
+    }
+
+    @Override
+    public Optional<Intersection> intersect(Ray ray) {
+        double denom = normal.dot(ray.getDirection());
+        if (Math.abs(denom) > 1e-6) {
+            Vector p0l0 = new Vector(
+                point.getX() - ray.getOrigin().getX(),
+                point.getY() - ray.getOrigin().getY(),
+                point.getZ() - ray.getOrigin().getZ()
+            );
+            double t = p0l0.dot(normal) / denom;
+            if (t >= 0) {
+                return Optional.of(new Intersection(this, t, ray.getPointAtParameter(t)));
+            }
+        }
+        return Optional.empty();
     }
 }

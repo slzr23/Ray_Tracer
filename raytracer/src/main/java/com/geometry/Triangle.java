@@ -1,4 +1,8 @@
 package com.geometry;
+
+import java.util.Optional;
+import com.raytracer.Intersection;
+import com.raytracer.Ray;
 import com.imaging.Color;
 
 public class Triangle implements Shape {
@@ -44,6 +48,53 @@ public class Triangle implements Shape {
 
     public Point getP3() {
         return p3;
+    }
+
+    @Override
+    public Vector getNormalAt(Point p) {
+        Vector v1 = new Vector(p2.getX() - p1.getX(), p2.getY() - p1.getY(), p2.getZ() - p1.getZ());
+        Vector v2 = new Vector(p3.getX() - p1.getX(), p3.getY() - p1.getY(), p3.getZ() - p1.getZ());
+        return v1.cross(v2).normalize();
+    }
+
+    @Override
+    public Optional<Intersection> intersect(Ray ray) {
+        final double EPSILON = 1e-8;
+        Vector edge1 = new Vector(p2.getX() - p1.getX(), p2.getY() - p1.getY(), p2.getZ() - p1.getZ());
+        Vector edge2 = new Vector(p3.getX() - p1.getX(), p3.getY() - p1.getY(), p3.getZ() - p1.getZ());
+        Vector h = ray.getDirection().cross(edge2);
+        double a = edge1.dot(h);
+
+        if (a > -EPSILON && a < EPSILON) {
+            return Optional.empty(); // Rayon parallèle au triangle
+        }
+
+        double f = 1.0 / a;
+        Vector s = new Vector(
+            ray.getOrigin().getX() - p1.getX(),
+            ray.getOrigin().getY() - p1.getY(),
+            ray.getOrigin().getZ() - p1.getZ()
+        );
+        double u = f * s.dot(h);
+
+        if (u < -EPSILON || u > 1.0 + EPSILON) {
+            return Optional.empty();
+        }
+
+        Vector q = s.cross(edge1);
+        double v = f * ray.getDirection().dot(q);
+
+        if (v < -EPSILON || u + v > 1.0 + EPSILON) {
+            return Optional.empty();
+        }
+
+        double t = f * edge2.dot(q);
+
+        if (t > EPSILON) {
+            return Optional.of(new Intersection(this, t, ray.getPointAtParameter(t)));
+        }
+
+        return Optional.empty();
     }
 
     @Override

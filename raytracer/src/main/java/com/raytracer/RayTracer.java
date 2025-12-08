@@ -43,15 +43,8 @@ public class RayTracer {
         Shape shape = intersection.getShape();
         Point point = intersection.getPoint();
 
-        // Pour l’instant, on ne gère que les sphères
-        if (!(shape instanceof Sphere)) {
-            return scene.getAmbient(); // Retour par défaut pour les autres formes
-        }
-
-        Sphere sphere = (Sphere) shape;
-
         // Normale au point d’intersection
-        Vector normal = sphere.getNormalAt(point);
+        Vector normal = shape.getNormalAt(point).normalize();
 
         // Composante ambiante
         Color ambient = scene.getAmbient();
@@ -67,6 +60,8 @@ public class RayTracer {
             eye.getY() - point.getY(),
             eye.getZ() - point.getZ()
         ).normalize();
+
+        // (Double face géré par lumière ci-dessous)
 
         // Contribution de chaque lumière (Lambert + Blinn-Phong + ombres)
         for (Light light : scene.getLights()) {
@@ -92,7 +87,7 @@ public class RayTracer {
 
             // ================== TEST D’OMBRE ==================
             // On décale légèrement l’origine le long de la normale pour éviter 
-            // de se réintersecter avec la même sphère.
+            // de se réintersecter avec l'objet lui-même.
             Point shadowOrigin = new Point(
                 point.getX() + normal.getX() * EPSILON,
                 point.getY() + normal.getY() * EPSILON,
@@ -124,17 +119,19 @@ public class RayTracer {
             }
 
             // ================== DIFFUSE (Lambert) ==================
-            double dotNL = normal.dot(lightDir);
-            if (dotNL <= 0.0) {
-                // surface tournée à l’opposé → pas de spéculaire non plus
-                continue;
+            // Autoriser double-face : si la normale est tournée à l'opposé de la lumière, on la retourne pour ce calcul
+            Vector lightNormal = normal;
+            double dotNL = lightNormal.dot(lightDir);
+            if (dotNL < 0.0) {
+                lightNormal = lightNormal.scale(-1);
+                dotNL = -dotNL;
             }
 
             double diffuseIntensity = dotNL; // normales et lightDir sont normalisés
             Color lightColor = light.getColor();
-            Color diffuseColor = sphere.getDiffuse();
-            Color specularColor = sphere.getSpecular();   // à avoir dans Sphere
-            float shininess = sphere.getShininess();      // pareil
+            Color diffuseColor = shape.getDiffuse();
+            Color specularColor = shape.getSpecular();   // à avoir dans Sphere
+            float shininess = shape.getShininess();      // pareil
 
             r += (float) (diffuseIntensity * lightColor.getR() * diffuseColor.getR());
             g += (float) (diffuseIntensity * lightColor.getG() * diffuseColor.getG());
@@ -143,7 +140,7 @@ public class RayTracer {
             // ================== SPECULAIRE (Blinn-Phong) ==================
             // h = (lightDir + viewDir) / ||lightDir + viewDir||
             Vector h = lightDir.add(viewDir).normalize();
-            double dotNH = Math.max(normal.dot(h), 0.0);
+            double dotNH = Math.max(lightNormal.dot(h), 0.0);
             double specIntensity = Math.pow(dotNH, shininess);
 
             if (specIntensity > 0.0) {
@@ -203,21 +200,17 @@ public class RayTracer {
             
             // Parcourir tous les objets de la scène
             for (Shape shape : scene.getShapes()) {
-                // que les sphères pour l'instant
-                if (shape instanceof Sphere) {
-                    Sphere sphere = (Sphere) shape;
-                    Optional<Intersection> intersection = sphere.intersect(ray);
+                Optional<Intersection> intersection = shape.intersect(ray);
+                
+                // Si intersection trouvée
+                if (intersection.isPresent()) {
+                    Intersection inter = intersection.get();
+                    double t = inter.getT();
                     
-                    // Si intersection trouvée
-                    if (intersection.isPresent()) {
-                        Intersection inter = intersection.get();
-                        double t = inter.getT();
-                        
-                        // Garder seulement si c'est la plus proche (et devant la caméra)
-                        if (t > EPSILON && t < minDistance) {
-                            minDistance = t;
-                            closest = inter;
-                        }
+                    // Garder seulement si c'est la plus proche (et devant la caméra)
+                    if (t > EPSILON && t < minDistance) {
+                        minDistance = t;
+                        closest = inter;
                     }
                 }
             }
