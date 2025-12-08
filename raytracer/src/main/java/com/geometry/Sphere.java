@@ -7,6 +7,17 @@ import com.raytracer.AABB;
 import com.raytracer.Intersection;
 import com.raytracer.Ray;
 
+/**
+ * Sphère définie par un centre et un rayon.
+ * <p>
+ * L'intersection rayon-sphère est calculée par résolution de l'équation
+ * du second degré. La normale en un point est simplement le vecteur
+ * du centre vers ce point, normalisé.
+ * </p>
+ * 
+ * @author Projet Ray Tracer
+ * @version 1.0
+ */
 public class Sphere implements Shape {
     private final Point center;
     private final double radius;

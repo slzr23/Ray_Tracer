@@ -8,6 +8,28 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+/**
+ * Analyseur syntaxique pour les fichiers de description de scène.
+ * <p>
+ * Cette classe permet de charger une scène 3D à partir d'un fichier texte
+ * suivant un format défini. Le parseur supporte la définition de :
+ * </p>
+ * <ul>
+ *   <li>Dimensions de l'image de sortie et nom du fichier</li>
+ *   <li>Paramètres de caméra (position, direction, champ de vision)</li>
+ *   <li>Matériaux (couleurs diffuse, spéculaire, brillance)</li>
+ *   <li>Sources lumineuses (directionnelles et ponctuelles)</li>
+ *   <li>Primitives géométriques (sphères, triangles, plans)</li>
+ * </ul>
+ * <p>
+ * Le format supporte également les commentaires (lignes commençant par #)
+ * et gère la définition de vertex pour la création de maillages triangulaires.
+ * </p>
+ * 
+ * @author Jules
+ * @version 1.0
+ * @see Scene
+ */
 public class SceneFileParser {
 
     private final Scene scene;

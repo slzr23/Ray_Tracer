@@ -4,7 +4,23 @@ import com.geometry.Point;
 import com.geometry.Vector;
 
 /**
- * Axis-aligned bounding box for acceleration structures.
+ * Boite englobante alignée sur les axes (Axis-Aligned Bounding Box).
+ * <p>
+ * Une AABB est définie par deux points représentant les coins opposés
+ * de la boite : le coin minimal et le coin maximal. Cette structure
+ * est utilisée pour accélérer les calculs d'intersection en permettant
+ * d'éliminer rapidement les objets qui ne peuvent pas être touchés
+ * par un rayon donné.
+ * </p>
+ * <p>
+ * L'algorithme d'intersection utilise la méthode des slabs (tranches)
+ * qui teste l'entrée et la sortie du rayon pour chaque paire de plans
+ * parallèles aux axes.
+ * </p>
+ * 
+ * @author Jules
+ * @version 1.0
+ * @see BVHNode
  */
 public class AABB {
     private final Point min;

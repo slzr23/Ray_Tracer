@@ -2,6 +2,17 @@ package com.raytracer;
 
 import com.geometry.*;
 
+/**
+ * Représente une caméra virtuelle dans l'espace 3D.
+ * <p>
+ * Définie par sa position, le point visé (lookAt), le vecteur "haut" (up)
+ * et le champ de vision (fov). Permet de générer les rayons primaires
+ * pour chaque pixel de l'image.
+ * </p>
+ * 
+ * @author Projet Ray Tracer
+ * @version 1.0
+ */
 public class Camera {
     private Point position;
     private Point lookAt;

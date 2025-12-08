@@ -6,6 +6,16 @@ import com.raytracer.Intersection;
 import com.raytracer.Ray;
 import com.imaging.Color;
 
+/**
+ * Triangle défini par trois sommets.
+ * <p>
+ * L'intersection rayon-triangle utilise l'algorithme de Möller-Trumbore.
+ * La normale est calculée par produit vectoriel des arêtes.
+ * </p>
+ * 
+ * @author Projet Ray Tracer
+ * @version 1.0
+ */
 public class Triangle implements Shape {
     private final Point p1;
     private final Point p2;

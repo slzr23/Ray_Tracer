@@ -6,6 +6,17 @@ import java.util.List;
 import com.geometry.Shape;
 import com.imaging.Color;
 
+/**
+ * Conteneur pour tous les éléments d'une scène 3D.
+ * <p>
+ * Stocke les dimensions de l'image, la caméra, les sources lumineuses,
+ * les objets géométriques et les paramètres de rendu (couleur ambiante, 
+ * profondeur de réflexion).
+ * </p>
+ * 
+ * @author Projet Ray Tracer
+ * @version 1.0
+ */
 public class Scene {
     private int width;
     private int height;

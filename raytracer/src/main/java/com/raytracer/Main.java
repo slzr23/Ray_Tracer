@@ -15,6 +15,19 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * Point d'entrée du ray tracer.
+ * <p>
+ * Charge un fichier scène passé en argument, effectue le rendu
+ * en parallèle (multi-threadé par lignes) et sauvegarde l'image PNG.
+ * </p>
+ * <p>
+ * Usage : {@code java com.raytracer.Main <fichier.scene>}
+ * </p>
+ * 
+ * @author Projet Ray Tracer
+ * @version 1.0
+ */
 public class Main {
     public static void main(String[] args) {
         if (args.length < 1) {

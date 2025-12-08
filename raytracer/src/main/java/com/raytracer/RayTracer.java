@@ -7,6 +7,21 @@ import java.util.Optional;
 import com.geometry.Point;
 import com.geometry.Shape;
 
+/**
+ * Moteur de rendu par lancer de rayons.
+ * <p>
+ * Cette classe gère le calcul des couleurs des pixels en traçant des rayons
+ * depuis la caméra vers la scène, en calculant les intersections avec les objets
+ * et en appliquant le modèle d'éclairage (Lambert + Blinn-Phong).
+ * </p>
+ * <p>
+ * Utilise un BVH (Bounding Volume Hierarchy) pour accélérer les tests d'intersection
+ * sur les objets bornés (sphères, triangles).
+ * </p>
+ * 
+ * @author Projet Ray Tracer
+ * @version 1.0
+ */
 public class RayTracer {
     private Scene scene;
     private static final double EPSILON = 1e-4;

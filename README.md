@@ -255,6 +255,37 @@ specular 0 0 0
 plane 0 -1 0 0 1 0
 ```
 
+## Documentation
+
+La documentation complète du projet est disponible au format JavaDoc.
+
+### Accéder à la JavaDoc
+
+Ouvrez le fichier suivant dans votre navigateur :
+
+```
+raytracer/doc/index.html
+```
+
+Ou depuis un terminal :
+
+```bash
+# Windows PowerShell
+start raytracer/doc/index.html
+
+# Linux/macOS
+open raytracer/doc/index.html
+```
+
+### Régénérer la JavaDoc
+
+Si vous modifiez le code source, vous pouvez régénérer la documentation :
+
+```bash
+cd raytracer
+javadoc -d doc -sourcepath src/main/java -subpackages com -encoding UTF-8 -charset UTF-8 -author -version
+```
+
 ## Structure du projet
 
 ```
@@ -271,6 +302,7 @@ Ray_Tracer/
 │   │   │   └── resources/
 │   │   │       └── scenes/
 │   │   └── test/
+│   ├── doc/             # Documentation JavaDoc
 │   ├── target/
 │   └── pom.xml
 ├── imgcompare/

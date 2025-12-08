@@ -2,6 +2,16 @@ package com.geometry;
 
 import com.raytracer.AbstractVec3;
 
+/**
+ * Point dans l'espace 3D.
+ * <p>
+ * Représente une position (x, y, z). Supporte la soustraction
+ * (pour obtenir un vecteur) et la multiplication par un scalaire.
+ * </p>
+ * 
+ * @author Projet Ray Tracer
+ * @version 1.0
+ */
 public class Point {
     private double x;
     private double y;

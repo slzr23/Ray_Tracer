@@ -7,7 +7,24 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Simple recursive BVH node for accelerating ray intersections.
+ * Noeud d'une structure BVH (Bounding Volume Hierarchy) pour l'accélération
+ * des tests d'intersection.
+ * <p>
+ * Cette classe implémente un arbre binaire où chaque noeud interne contient
+ * une boite englobante (AABB) qui englobe tous ses enfants, et chaque feuille
+ * contient une unique forme géométrique. La construction de l'arbre utilise
+ * une heuristique de partitionnement basée sur l'axe de plus grande étendue.
+ * </p>
+ * <p>
+ * L'utilisation d'une BVH permet de réduire la complexité des tests
+ * d'intersection de O(n) à O(log n) en moyenne, où n est le nombre
+ * de primitives dans la scène.
+ * </p>
+ * 
+ * @author Jules
+ * @version 1.0
+ * @see AABB
+ * @see Shape
  */
 public class BVHNode {
     private final AABB box;

@@ -6,6 +6,16 @@ import com.raytracer.Intersection;
 import com.raytracer.Ray;
 import com.imaging.Color;
 
+/**
+ * Plan infini défini par un point et une normale.
+ * <p>
+ * Utilisé typiquement pour le sol ou les murs. Ne possède pas
+ * de bounding box (retourne null) et n'est donc pas accéléré par le BVH.
+ * </p>
+ * 
+ * @author Projet Ray Tracer
+ * @version 1.0
+ */
 public class Plane implements Shape {
     private final Point point;      // Un point du plan
     private final Vector normal;    // Vecteur normal au plan

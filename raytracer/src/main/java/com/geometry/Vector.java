@@ -2,6 +2,16 @@ package com.geometry;
 
 import com.raytracer.AbstractVec3;
 
+/**
+ * Vecteur dans l'espace 3D.
+ * <p>
+ * Supporte les opérations vectorielles classiques : addition, soustraction,
+ * produit scalaire (dot), produit vectoriel (cross), normalisation.
+ * </p>
+ * 
+ * @author Projet Ray Tracer
+ * @version 1.0
+ */
 public class Vector {
     private double x;
     private double y;

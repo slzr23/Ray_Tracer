@@ -2,6 +2,17 @@ package com.imaging;
 
 import com.raytracer.AbstractVec3;
 
+/**
+ * Couleur RGB avec composantes flottantes.
+ * <p>
+ * Les valeurs sont stockées dans [0, 1] mais peuvent dépasser
+ * lors des calculs (HDR). La conversion en entier 24 bits
+ * applique un clamp automatique.
+ * </p>
+ * 
+ * @author Projet Ray Tracer
+ * @version 1.0
+ */
 public class Color {
     private float r;
     private float g;
