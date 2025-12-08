@@ -10,11 +10,13 @@ diffuse 1 0 0
 
 maxverts 5
 
-vertex 0 0 0
+vertex 0 1 1
 vertex 1 0 0
 vertex 0 1 0
 vertex 1 1 0
 vertex .5 .5 .7
+
+
 
 tri 3 4 2
 tri 3 4 1
