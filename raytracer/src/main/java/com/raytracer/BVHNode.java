@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import com.raytracer.Intersection;
-import com.raytracer.Ray;
 
 /**
  * Simple recursive BVH node for accelerating ray intersections.
