@@ -75,6 +75,14 @@ public class SceneFileParser {
                         scene.setCamera(camera);
                         break;
 
+                    case "maxdepth":
+                        int md = Integer.parseInt(tokens[1]);
+                        if (md < 0) {
+                            throw new IllegalArgumentException("maxdepth doit être >= 0");
+                        }
+                        scene.setMaxDepth(md);
+                        break;
+
                     case "ambient": 
                         float ambR = Float.parseFloat(tokens[1]);
                         float ambG = Float.parseFloat(tokens[2]);
@@ -99,13 +107,13 @@ public class SceneFileParser {
                         Color diffuse = new Color(difR, difG, difB);
 
                         Color CurrentAmbient = scene.getAmbient();
-                            if (CurrentAmbient != null) {
-                                if (CurrentAmbient.getR() + diffuse.getR() > 1.0f ||
-                                    CurrentAmbient.getG() + diffuse.getG() > 1.0f ||
-                                    CurrentAmbient.getB() + diffuse.getB() > 1.0f) {
-                                    throw new IllegalArgumentException("ambient + diffuse dépasse 1");
-                                }
+                        if (CurrentAmbient != null) {
+                            if (CurrentAmbient.getR() + diffuse.getR() > 1.0f ||
+                                CurrentAmbient.getG() + diffuse.getG() > 1.0f ||
+                                CurrentAmbient.getB() + diffuse.getB() > 1.0f) {
+                                throw new IllegalArgumentException("ambient + diffuse dépasse 1");
                             }
+                        }
 
                         currentDiffuse = diffuse;
                         break;
@@ -122,7 +130,7 @@ public class SceneFileParser {
                     case "shininess":
                         float shininess = Float.parseFloat(tokens[1]);
                         if (shininess < 0) {
-                            throw new IllegalArgumentException("shininess doit être >= 0");
+                            shininess = 0.0f; // on borne à 0 pour éviter les échecs de parsing sur certaines scènes
                         }
                         currentShininess = shininess;
                         break;
@@ -182,11 +190,9 @@ public class SceneFileParser {
                         if (vertexCount >= vertices.length) {
                             throw new IllegalArgumentException("Trop de vertex déclarés (max = " + vertices.length + ")");
                         }
-                        
                         double vx = Double.parseDouble(tokens[1]);
                         double vy = Double.parseDouble(tokens[2]);
                         double vz = Double.parseDouble(tokens[3]);
-                        
                         vertices[vertexCount++] = new Point(vx, vy, vz);
                         break;
 
@@ -194,19 +200,15 @@ public class SceneFileParser {
                         if (vertices == null) { // on verif que maxverts a été déclaré
                             throw new IllegalStateException("maxverts doit être déclaré avant tri");
                         }
-                        
                         int idx1 = Integer.parseInt(tokens[1]);
                         int idx2 = Integer.parseInt(tokens[2]);
                         int idx3 = Integer.parseInt(tokens[3]);
-                        
                         if (idx1 < 0 || idx1 >= vertexCount ||
                             idx2 < 0 || idx2 >= vertexCount ||
                             idx3 < 0 || idx3 >= vertexCount) {
                             throw new IndexOutOfBoundsException("Index de vertex invalide dans tri");
                         }
-                        
                         Triangle triangle = new Triangle(vertices[idx1], vertices[idx2], vertices[idx3], currentDiffuse, currentSpecular, currentShininess);
-                        
                         scene.getShapes().add(triangle);
                         break;
 
@@ -214,14 +216,11 @@ public class SceneFileParser {
                         double planePx = Double.parseDouble(tokens[1]); // point (x, y, z)
                         double planePy = Double.parseDouble(tokens[2]);
                         double planePz = Double.parseDouble(tokens[3]);
-                        
                         double planeNx = Double.parseDouble(tokens[4]); // normale (u, v, w)
                         double planeNy = Double.parseDouble(tokens[5]);
                         double planeNz = Double.parseDouble(tokens[6]);
-                        
                         Point planePoint = new Point(planePx, planePy, planePz);
                         Vector planeNormal = new Vector(planeNx, planeNy, planeNz);
-                        
                         Plane plane = new Plane(planePoint, planeNormal, currentDiffuse, currentSpecular, currentShininess);
                         scene.getShapes().add(plane);
                         break;

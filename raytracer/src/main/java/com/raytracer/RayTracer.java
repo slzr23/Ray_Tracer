@@ -17,20 +17,13 @@ public class RayTracer {
     }
 
     public Color getPixelColor(int i, int j) {
-        // Générer le rayon pour ce pixel
-        Ray ray = generateRay(i, j);
-        
-        // Trouver l'intersection la plus proche
-        Optional<Intersection> intersection = findClosestIntersection(ray);
-        
-        // Calculer la couleur
+        Ray primaryRay = generateRay(i, j);
+        Optional<Intersection> intersection = findClosestIntersection(primaryRay);
+
         if (intersection.isPresent()) {
-            // Il y a une intersection : calculer l'illumination
-            return computeColor(intersection.get());
-        } else {
-            // Pas d'intersection : pixel noir/couleur fond
-            return new Color(0f, 0f, 0f);
+            return computeColor(intersection.get(), primaryRay, scene.getMaxDepth());
         }
+        return new Color(0f, 0f, 0f);
     }
 
     /**
@@ -38,13 +31,18 @@ public class RayTracer {
      * @param intersection l'intersection avec l'objet
      * @return la couleur calculée
      */
-    private Color computeColor(Intersection intersection) {
+    private Color computeColor(Intersection intersection, Ray incomingRay, int remainingDepth) {
         // Récupérer les informations de l’intersection
         Shape shape = intersection.getShape();
         Point point = intersection.getPoint();
 
         // Normale au point d’intersection
         Vector normal = shape.getNormalAt(point).normalize();
+
+        // Oriente la normale pour qu'elle fasse face au rayon incident (évite un rebond vers l'intérieur)
+        if (normal.dot(incomingRay.getDirection()) > 0) {
+            normal = normal.scale(-1);
+        }
 
         // Composante ambiante
         Color ambient = scene.getAmbient();
@@ -147,6 +145,35 @@ public class RayTracer {
                 r += (float) (specIntensity * lightColor.getR() * specularColor.getR());
                 g += (float) (specIntensity * lightColor.getG() * specularColor.getG());
                 b += (float) (specIntensity * lightColor.getB() * specularColor.getB());
+            }
+        }
+
+        // ================== REFLEXION (bonus) ==================
+        boolean hasSpecular = shape.getSpecular() != null && (
+            shape.getSpecular().getR() > 0f || shape.getSpecular().getG() > 0f || shape.getSpecular().getB() > 0f
+        );
+
+        if (hasSpecular && remainingDepth > 0) {
+            Vector d = incomingRay.getDirection();
+            // r = d - 2*(d·n)*n (n déjà orientée vers l'extérieur par rapport au rayon)
+            Vector reflectDir = d.subtract(normal.scale(2 * d.dot(normal))).normalize();
+
+            Point reflectOrigin = new Point(
+                point.getX() + normal.getX() * EPSILON,
+                point.getY() + normal.getY() * EPSILON,
+                point.getZ() + normal.getZ() * EPSILON
+            );
+
+            Ray reflectRay = new Ray(reflectOrigin, reflectDir);
+            Optional<Intersection> reflectHit = findClosestIntersection(reflectRay);
+
+            if (reflectHit.isPresent()) {
+                Color reflected = computeColor(reflectHit.get(), reflectRay, remainingDepth - 1);
+                Color spec = shape.getSpecular();
+
+                r += reflected.getR() * spec.getR();
+                g += reflected.getG() * spec.getG();
+                b += reflected.getB() * spec.getB();
             }
         }
 

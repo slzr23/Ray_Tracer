@@ -14,6 +14,7 @@ public class Scene {
     private Color ambient = new Color();
     private List<Light> lights = new ArrayList<>();
     private List<Shape> shapes = new ArrayList<>();
+    private int maxDepth = 0; // profondeur de récursion pour la réflexion
 
     public Scene() {
     }
@@ -46,6 +47,11 @@ public class Scene {
         return shapes;
     }
 
+    public int getMaxDepth() {
+        return maxDepth;
+    }
+
+
     public void setWidth(int width) {
         this.width = width;
     }
@@ -72,6 +78,10 @@ public class Scene {
 
     public void setShapes(List<Shape> shapes) {
         this.shapes = shapes;
+    }
+
+    public void setMaxDepth(int maxDepth) {
+        this.maxDepth = Math.max(0, maxDepth);
     }
 
 }
