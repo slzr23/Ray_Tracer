@@ -49,11 +49,12 @@ public class RayTracer {
         Point point = intersection.getPoint();
 
         // Normale au point d’intersection
-        Vector normal = shape.getNormalAt(point).normalize();
+        Vector geometricNormal = shape.getNormalAt(point).normalize();
 
         // Oriente la normale pour qu'elle fasse face au rayon incident (évite un rebond vers l'intérieur)
-        if (normal.dot(incomingRay.getDirection()) > 0) {
-            normal = normal.scale(-1);
+        Vector orientedNormal = geometricNormal;
+        if (orientedNormal.dot(incomingRay.getDirection()) > 0) {
+            orientedNormal = orientedNormal.scale(-1);
         }
 
         // Composante ambiante
@@ -80,7 +81,7 @@ public class RayTracer {
 
             if (light instanceof DirectionalLight) {
                 DirectionalLight dirLight = (DirectionalLight) light;
-                lightDir = dirLight.getDirection().normalize();
+                lightDir = dirLight.getDirection().scale(-1).normalize();
             } else if (light instanceof PointLight) {
                 PointLight pointLight = (PointLight) light;
                 Point lightPos = pointLight.getPosition();
@@ -99,9 +100,9 @@ public class RayTracer {
             // On décale légèrement l’origine le long de la normale pour éviter 
             // de se réintersecter avec l'objet lui-même.
             Point shadowOrigin = new Point(
-                point.getX() + normal.getX() * EPSILON,
-                point.getY() + normal.getY() * EPSILON,
-                point.getZ() + normal.getZ() * EPSILON
+                point.getX() + orientedNormal.getX() * EPSILON,
+                point.getY() + orientedNormal.getY() * EPSILON,
+                point.getZ() + orientedNormal.getZ() * EPSILON
             );
             Ray shadowRay = new Ray(shadowOrigin, lightDir);
 
@@ -129,12 +130,10 @@ public class RayTracer {
             }
 
             // ================== DIFFUSE (Lambert) ==================
-            // Autoriser double-face : si la normale est tournée à l'opposé de la lumière, on la retourne pour ce calcul
-            Vector lightNormal = normal;
-            double dotNL = lightNormal.dot(lightDir);
-            if (dotNL < 0.0) {
-                lightNormal = lightNormal.scale(-1);
-                dotNL = -dotNL;
+            // Faces tournées à l'opposé de la lumière : pas de contribution
+            double dotNL = geometricNormal.dot(lightDir);
+            if (dotNL <= 0.0) {
+                continue;
             }
 
             double diffuseIntensity = dotNL; // normales et lightDir sont normalisés
@@ -150,7 +149,7 @@ public class RayTracer {
             // ================== SPECULAIRE (Blinn-Phong) ==================
             // h = (lightDir + viewDir) / ||lightDir + viewDir||
             Vector h = lightDir.add(viewDir).normalize();
-            double dotNH = Math.max(lightNormal.dot(h), 0.0);
+            double dotNH = Math.max(geometricNormal.dot(h), 0.0);
             double specIntensity = Math.pow(dotNH, shininess);
 
             if (specIntensity > 0.0) {
@@ -168,12 +167,12 @@ public class RayTracer {
         if (hasSpecular && remainingDepth > 0) {
             Vector d = incomingRay.getDirection();
             // r = d - 2*(d·n)*n (n déjà orientée vers l'extérieur par rapport au rayon)
-            Vector reflectDir = d.subtract(normal.scale(2 * d.dot(normal))).normalize();
+            Vector reflectDir = d.subtract(orientedNormal.scale(2 * d.dot(orientedNormal))).normalize();
 
             Point reflectOrigin = new Point(
-                point.getX() + normal.getX() * EPSILON,
-                point.getY() + normal.getY() * EPSILON,
-                point.getZ() + normal.getZ() * EPSILON
+                point.getX() + orientedNormal.getX() * EPSILON,
+                point.getY() + orientedNormal.getY() * EPSILON,
+                point.getZ() + orientedNormal.getZ() * EPSILON
             );
 
             Ray reflectRay = new Ray(reflectOrigin, reflectDir);
