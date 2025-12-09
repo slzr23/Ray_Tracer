@@ -334,13 +334,36 @@ Ray_Tracer/
 └── README.md
 ```
 
-## Limitations actuelles
+## Quelques rendus
 
-- Les intersections pour les triangles et les plans ne sont pas encore implémentées
-- Seules les sphères sont actuellement rendues
-- Pas de support pour les ombres
-- Pas de réflexion spéculaire (modèle de Phong incomplet)
-- Pas de réfraction ou de transparence
+Voici quelques exemples d'images générées par le ray tracer :
+
+### Scène finale (1920x1080)
+
+![Scène finale](raytracer/final.png)
+
+### Scène bonus - Dragon (640x480)
+
+![Dragon](raytracer/dragon3.png)
+
+### Éclairage diffus (tp51-diffuse)
+
+![Éclairage diffus](raytracer/tp51-diffuse.png)
+
+### Réflexions (tp62-1)
+
+![Réflexions](raytracer/tp62-1.png)
+
+## Fonctionnalités implémentées
+
+- ✅ Formes géométriques : sphères, triangles, plans
+- ✅ Éclairage : lumières directionnelles et ponctuelles
+- ✅ Modèle de Lambert (réflexion diffuse)
+- ✅ Modèle de Blinn-Phong (réflexion spéculaire)
+- ✅ Calcul des ombres
+- ✅ Réflexions récursives (avec profondeur configurable)
+- ✅ Rendu multi-threadé pour de meilleures performances
+- ✅ Structure d'accélération BVH (Bounding Volume Hierarchy)
 
 ## Auteur
 
