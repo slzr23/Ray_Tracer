@@ -49,16 +49,16 @@ public class Main {
         }
         
         try {
-            // Étape 1 : Charger la scène depuis le fichier
+            // Charger la scène depuis le fichier
             System.out.println("Chargement de la scène depuis : " + sceneFilePath);
             Scene scene = new Scene();
             SceneFileParser parser = new SceneFileParser(scene);
             parser.parse(sceneFilePath);
             
-            // Étape 2 : Créer le RayTracer
+            // Créer le RayTracer
             RayTracer rayTracer = new RayTracer(scene);
             
-            // Étape 3 : Créer l'image (BufferedImage)
+            // Créer l'image (BufferedImage)
             int width = scene.getWidth();
             int height = scene.getHeight();
             BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -103,7 +103,7 @@ public class Main {
                 }
             }
             
-            // Étape 5 : Sauvegarder l'image en PNG
+            // Sauvegarder l'image en PNG
             String outputPath = scene.getOutputFile();
             File outputFile = new File(outputPath);
             
