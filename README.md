@@ -342,7 +342,7 @@ Voici quelques exemples d'images générées par le ray tracer :
 
 ![Scène finale](raytracer/final.png)
 
-### Scène bonus - Dragon (640x480)
+### Scène Dragon (640x480)
 
 ![Dragon](raytracer/dragon3.png)
 
