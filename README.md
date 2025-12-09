@@ -350,9 +350,9 @@ Voici quelques exemples d'images générées par le ray tracer :
 
 ![Éclairage diffus](raytracer/tp51-diffuse.png)
 
-### Réflexions (tp62-1)
+### Réflexions (tp62-2)
 
-![Réflexions](raytracer/tp62-1.png)
+![Réflexions](raytracer/tp62-2.png)
 
 ## Fonctionnalités implémentées
 
