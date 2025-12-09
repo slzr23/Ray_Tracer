@@ -21,7 +21,7 @@ import java.util.Optional;
  * de primitives dans la scène.
  * </p>
  * 
- * @author Jules
+ * @author Projet Ray Tracer
  * @version 1.0
  * @see AABB
  * @see Shape

@@ -111,7 +111,7 @@ public class RayTracer {
                 continue; // Type de lumière non supporté
             }
 
-            // ================== TEST D’OMBRE ==================
+            // TEST D’OMBRE 
             // On décale légèrement l’origine le long de la normale pour éviter 
             // de se réintersecter avec l'objet lui-même.
             Point shadowOrigin = new Point(

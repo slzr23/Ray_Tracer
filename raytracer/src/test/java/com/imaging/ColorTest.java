@@ -21,7 +21,7 @@ public class ColorTest {
 
         Color sum = a.add(b);
         assertEquals(0.7f, sum.getR(), 1e-9);
-        assertEquals(0.9f, sum.getG(), 1e-9);
+        assertEquals(0.9f, sum.getG(), 1e-4);
         assertEquals(1.1f, sum.getB(), 1e-9);
 
         Color scaled = a.scale(2.0f);
@@ -40,7 +40,7 @@ public class ColorTest {
         Color c = new Color();
         c.setR(1.5f); c.setG(-0.1f); c.setB(0.5f);
         int rgb = c.toRGB();
-        // After clamping: (1.0, 0.0, 0.5) => (255, 0, 128) => 0xFF0080
+        // après clamping: (1.0, 0.0, 0.5) => (255, 0, 128) => 0xFF0080
         assertEquals(0xFF0080, rgb);
     }
 

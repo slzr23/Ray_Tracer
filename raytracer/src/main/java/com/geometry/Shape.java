@@ -24,7 +24,7 @@ public interface Shape {
     Vector getNormalAt(Point p);
     Optional<Intersection> intersect(Ray ray);
     /**
-     * Bounding box for acceleration. Return null for unbounded shapes (e.g. planes).
+     * Return null pour les formes non bornées (plans)
      */
     AABB getBoundingBox();
 }

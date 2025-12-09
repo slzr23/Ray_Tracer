@@ -18,7 +18,7 @@ import com.geometry.Vector;
  * parallèles aux axes.
  * </p>
  * 
- * @author Jules
+ * @author Projet Ray Tracer
  * @version 1.0
  * @see BVHNode
  */

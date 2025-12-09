@@ -13,14 +13,14 @@ package com.raytracer;
  * inhérentes à la représentation binaire des nombres réels.
  * </p>
  * 
- * @author Jules
+ * @author Projet Ray Tracer
  * @version 1.0
  */
 public class AbstractVec3 {
     // Epsilon utilisé pour les comparaisons de nombres flottants
     public static final double EPS = 1e-9;
 
-    // Retourne vrai si les deux doubles sont à peu près égaux dans EPS.
+    // Retourne vrai si les deux doubles sont à peu près égaux à epslion près
     public static boolean nearlyEqual(double a, double b) {
         return Math.abs(a - b) <= EPS;
     }

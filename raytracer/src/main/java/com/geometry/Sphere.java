@@ -133,7 +133,7 @@ public class Sphere implements Shape {
             return Optional.empty();
         }
         
-        // Calculer t2 car plus proche
+        // Calcul de t2 car plus proche
         double t2 = (-b - Math.sqrt(delta)) / (2 * a);
         
         // Si t2 est négatif, essayer t1

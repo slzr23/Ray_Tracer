@@ -13,18 +13,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class SceneFileParserTest {
 
-    /**
-     * Test qui utilise ton fichier existant tp31.test
-     * placé (par exemple) dans : src/test/java/com/ressources/scenes/tp31.test
-     *
-     * Adapte la chaîne filePath si ton chemin exact est différent.
-     */
+    // Test qui utilise tp31.test
     @Test
     public void testParseTp31Scene_basic() throws Exception {
         Scene scene = new Scene();
         SceneFileParser parser = new SceneFileParser(scene);
 
-        // 🔴 À ADAPTER selon ton projet exact
         String filePath = "src/test/java/com/ressources/scenes/tp31.test";
 
         parser.parse(filePath);
@@ -41,11 +35,7 @@ public class SceneFileParserTest {
         assertFalse(scene.getShapes().isEmpty(), "La scène devrait contenir au moins une forme");
     }
 
-    /**
-     * Test complet sur une scène simple générée à la volée :
-     * - size / camera / ambient / diffuse / specular
-     * - une seule sphere avec les bonnes couleurs
-     */
+    // Test complet sur une scène simple générée à la volée :
     @Test
     public void testParseSimpleSphereScene() throws IOException {
         Scene scene = new Scene();
@@ -96,14 +86,7 @@ public class SceneFileParserTest {
         assertEquals(new Color(0.2f, 0.2f, 0.2f), s.getSpecular());
     }
 
-    /**
-     * Test : ambient + diffuse > 1 sur une composante doit lever IllegalArgumentException.
-     *
-     * Ici on teste exactement la règle du sujet :
-     * "il faut vérifier que (ambient + diffuse) ne dépasse pas 1 sur chaque composante".
-     *
-     * Si ce test échoue, c'est que ton implémentation ne respecte pas encore la spec.
-     */
+    // Test : ambient + diffuse > 1 sur une composante doit lever IllegalArgumentException
     @Test
     public void testAmbientPlusDiffuseGreaterThanOneThrows() throws IOException {
         Scene scene = new Scene();

@@ -78,6 +78,6 @@ public class Plane implements Shape {
 
     @Override
     public AABB getBoundingBox() {
-        return null; // Infinite plane -> handled outside BVH
+        return null; // plan ifnini donc pas de bounding box
     }
 }

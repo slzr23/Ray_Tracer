@@ -28,7 +28,7 @@ public class Main {
             }
             System.out.println("Les deux images diffèrent de " + diffCount + " pixels.");
 
-            // Générer l'image différentielle seulement si au moins un pixel diffère
+            // On genere l'image différentielle seulement si au moins un pixel diffère
             if (diffCount > 0) {
                 BufferedImage diffImage = comparator.generateDifferenceImage();
                 ImageIO.write(diffImage, "png", new File("diff.png"));

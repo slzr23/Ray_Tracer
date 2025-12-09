@@ -52,7 +52,7 @@ public class SceneFileParser {
             while ((line = reader.readLine()) != null) {
                 line = line.trim();
 
-                // ignorer lignes vides / commentaires
+                // ignorer lignes vides et com
                 if (line.isEmpty() || line.startsWith("#")) {
                     continue;
                 }

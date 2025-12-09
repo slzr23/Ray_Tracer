@@ -96,7 +96,7 @@ public class Color {
     }
     // Conversion RGB 
     public int toRGB(){
-    // Clamp to [0,1] then convert
+    // Clamp dans [0,1] puis conversion
     double rc = AbstractVec3.clamp(r, 0.0, 1.0);
     double gc = AbstractVec3.clamp(g, 0.0, 1.0);
     double bc = AbstractVec3.clamp(b, 0.0, 1.0);
