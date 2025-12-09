@@ -356,15 +356,15 @@ Voici quelques exemples d'images générées par le ray tracer :
 
 ## Fonctionnalités implémentées
 
-- ✅ Formes géométriques : sphères, triangles, plans
-- ✅ Éclairage : lumières directionnelles et ponctuelles
-- ✅ Modèle de Lambert (réflexion diffuse)
-- ✅ Modèle de Blinn-Phong (réflexion spéculaire)
-- ✅ Calcul des ombres
-- ✅ Réflexions récursives (avec profondeur configurable)
-- ✅ Rendu multi-threadé pour de meilleures performances
-- ✅ Structure d'accélération BVH (Bounding Volume Hierarchy)
+- Formes géométriques : sphères, triangles, plans
+- Éclairage : lumières directionnelles et ponctuelles
+- Modèle de Lambert (réflexion diffuse)
+- Modèle de Blinn-Phong (réflexion spéculaire)
+- Calcul des ombres
+- Réflexions récursives (avec profondeur configurable)
+- Rendu multi-threadé pour de meilleures performances
+- Structure d'accélération BVH (Bounding Volume Hierarchy)
 
-## Auteur
+## Cadre 
 
 Projet développé dans le cadre du cours de Conception Orientée Objet à l'Institut Mines Telecom Nord Europe.
