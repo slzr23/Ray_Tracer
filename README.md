@@ -63,15 +63,40 @@ cp -r src/main/resources/* target/classes/
 
 ## Utilisation
 
-```bash
-java -cp target/classes com.raytracer.Main <chemin-vers-fichier-scene>
-```
-
-Exemple :
+### Avec le JAR exécutable (recommandé)
 
 ```bash
-java -cp target/classes com.raytracer.Main src/main/resources/scenes/jalon3/tp31.test
+java -jar raytracer/target/raytracer-1.0.jar <chemin-vers-fichier-scene>
 ```
+
+Exemples :
+
+```bash
+# Chemin absolu
+java -jar raytracer/target/raytracer-1.0.jar "C:\chemin\vers\ma_scene.scene"
+
+# Chemin relatif
+java -jar raytracer/target/raytracer-1.0.jar raytracer/src/main/resources/scenes/final.scene
+```
+
+### Avec les classes compilées
+
+```bash
+java -cp raytracer/target/classes com.raytracer.Main <chemin-vers-fichier-scene>
+```
+
+### Tester toutes les scènes
+
+Un script PowerShell est fourni pour générer les images de toutes les scènes et les comparer aux images de référence :
+
+```powershell
+.\run-all-tests.ps1
+```
+
+Ce script :
+- Génère les images pour chaque jalon (2-6) et les scènes finales
+- Compare automatiquement chaque image avec sa cible (quand disponible)
+- Affiche un rapport de différences de pixels
 
 L'image générée sera sauvegardée à l'emplacement spécifié dans le fichier de scène.
 

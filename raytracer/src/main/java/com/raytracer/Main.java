@@ -31,11 +31,22 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Main {
     public static void main(String[] args) {
         if (args.length < 1) {
-            System.err.println("Usage: java com.raytracer.Main <scene-file>");
+            System.err.println("Usage: java -jar raytracer.jar <scene-file>");
             System.exit(1);
         }
 
-        String sceneFilePath = "src/main/resources/scenes/" + args[0]; // jalonX/fichier.test
+        // Déterminer le chemin du fichier de scène
+        String sceneFilePath = args[0];
+        
+        // Si le chemin donné n'existe pas directement, essayer avec le préfixe resources
+        java.io.File sceneFile = new java.io.File(sceneFilePath);
+        if (!sceneFile.exists()) {
+            String resourcePath = "src/main/resources/scenes/" + args[0];
+            java.io.File resourceFile = new java.io.File(resourcePath);
+            if (resourceFile.exists()) {
+                sceneFilePath = resourcePath;
+            }
+        }
         
         try {
             // Étape 1 : Charger la scène depuis le fichier
