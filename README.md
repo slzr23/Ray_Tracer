@@ -2,6 +2,8 @@
 
 Un moteur de rendu 3D développé en Java qui génère des images photoréalistes à partir de descriptions de scènes textuelles.
 
+![Dragon](raytracer/dragon3.png)
+
 ## Description du projet
 
 Ce ray tracer implémente les techniques fondamentales de synthèse d'image par lancer de rayons. Pour chaque pixel de l'image finale, un rayon est tracé depuis la caméra virtuelle à travers ce pixel. Le programme calcule ensuite les intersections avec les objets de la scène et détermine la couleur résultante en fonction de l'éclairage.
